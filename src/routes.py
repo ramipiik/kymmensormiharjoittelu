@@ -1,15 +1,22 @@
 from flask import render_template, request, redirect
 from app import app
-import messages, users
+import messages, users, exercises
 
 @app.route("/")
 def index():
-    list = messages.get_list()
-    return render_template("index.html", count=len(list), messages=list)
+    messages_list = messages.get_list()
+    exercises_list = exercises.get_list()
+    return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list)
 
 @app.route("/new")
 def new():
-    return render_template("new.html")
+    return render_template("new_exercise.html")
+
+
+@app.route("/exercises/<int:id>")
+def exercise(id):
+    return render_template("/exercises/exercise"+str(id)+".html")
+
 
 @app.route("/send", methods=["POST"])
 def send():
@@ -18,6 +25,17 @@ def send():
         return redirect("/")
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
+
+@app.route("/new_exercise", methods=["POST"])
+def create_exercise():
+    name = request.form["name"]
+    description = request.form["description"]
+    level = request.form["level"]
+
+    if exercises.create(name, level, description):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Harjoituksen luonti ei onnistunut")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

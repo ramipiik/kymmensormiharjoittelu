@@ -1,4 +1,4 @@
-Viestien määrä: {{ count }}
+<!-- Viestien määrä: {{ count }}
 <hr>
 {% for message in messages %}
 <i>Viesti:</i> {{ message[0] }}
@@ -7,10 +7,22 @@ Viestien määrä: {{ count }}
 <p>
 <i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <hr>
+{% endfor %} -->
+
+Harjoitukset:
+<hr>
+{% for exercise in exercises %}
+<i>Nimi:</i> <a href="/exercises/{{ exercise[0] }}">{{ exercise[1] }}</a>
+<p>
+<i>Taso:</i> {{ exercise[2] }}
+<p>
+<i>Kuvaus:</i> {{ exercise[3] }}
+<hr>
 {% endfor %}
+
 {% if session.user_id %}
 Olet kirjautunut sisään.
-<a href="/new">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
+<a href="/new">Luo harjoitus</a> | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 {% endif %}
