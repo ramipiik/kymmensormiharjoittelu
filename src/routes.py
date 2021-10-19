@@ -6,7 +6,9 @@ import messages, users, exercises
 def index():
     messages_list = messages.get_list()
     exercises_list = exercises.get_list()
-    return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list)
+    levels=exercises.get_levels()
+    print(levels)
+    return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels)
 
 @app.route("/new")
 def new():
@@ -44,6 +46,7 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        print("username", username)
         if users.login(username, password):
             return redirect("/")
         else:

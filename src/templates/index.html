@@ -1,28 +1,45 @@
-<!-- Viestien määrä: {{ count }}
-<hr>
-{% for message in messages %}
-<i>Viesti:</i> {{ message[0] }}
-<p>
-<i>Lähettäjä:</i> {{ message[1] }}
-<p>
-<i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
-<hr>
-{% endfor %} -->
+{% if not session.user_id %}
+<a href="/login">Kirjaudu sisään:</a>
 
-Harjoitukset:
-<hr>
-{% for exercise in exercises %}
-<i>Nimi:</i> <a href="/exercises/{{ exercise[0] }}">{{ exercise[1] }}</a>
-<p>
-<i>Taso:</i> {{ exercise[2] }}
-<p>
-<i>Kuvaus:</i> {{ exercise[3] }}
-<hr>
-{% endfor %}
-
-{% if session.user_id %}
-Olet kirjautunut sisään.
-<a href="/new">Luo harjoitus</a> | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
-<a href="/login">Kirjaudu sisään</a>
+Olet kirjautunut sisään tunnuksella: {{ session.username }}. <a href="/logout">Kirjaudu ulos</a>
+
+<p><a href="/new">Luo harjoitus</a></p>
+
+<p>Filter exercises by level:</p>
+{% for level in levels %}
+    <input type="radio" name="chosen_level" value={{level}} onclick="filter({{level}})"> {{level}}
+{% endfor %}
+<input type="radio" name="chosen_level" value="All" onclick="filter('all')"> All
+
+<h2>Harjoitukset:</h2>
+<hr>
+    {% for exercise in exercises %}
+    <div name="item">
+        <i>Nimi:</i> <a href="/exercises/{{ exercise[0] }}">{{ exercise[1] }}</a>
+        <p>
+        <i id="taso">Taso:</i> <span id="level">{{ exercise["level"] }}</span>
+        <p>
+        <i>Kuvaus:</i> {{ exercise["description"] }}
+        <hr>
+    </div>
+    {% endfor %}
+
 {% endif %}
+
+<script>
+    function filter(input) {
+        elements = document.getElementsByName('item');
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < elements.length; i++) {
+            a = elements[i].getElementsByTagName("span")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue == input.toString() || input=="all") {
+                elements[i].style.display = "";
+            }
+            else {
+                elements[i].style.display = "none";
+            } 
+        }
+    }
+</script>

@@ -3,14 +3,19 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username, password):
-    sql = "SELECT id, password FROM users WHERE username=:username"
+    sql = "SELECT id, username, password FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
+    print("user", user)
     if not user:
         return False
     else:
         if check_password_hash(user.password, password):
+            print("checkpoint1")
+            print("user_id", user.id)
+            print("username", user.username)
             session["user_id"] = user.id
+            session["username"] = user.username
             return True
         else:
             return False
