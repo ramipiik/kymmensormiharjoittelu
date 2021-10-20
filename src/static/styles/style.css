@@ -19,7 +19,7 @@ h3 {
     padding-bottom: 10px;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 50%;
+    line-height: 100%;
     letter-spacing: 1px;
     margin-right: 100px;
     width: 600px;
@@ -28,11 +28,16 @@ h3 {
 
 #fame {
     border: 20px solid white;
+    padding: 5px;
+    margin-top: 20px
+}
 
+#text-to-write {
+    background-color: whitesmoke;
 }
 
 
-/* Code of the stopwatch copied from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak */
+/* Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak */
 #stopwatchbutton {
     width: 100px;
     height: 30px;
@@ -46,6 +51,7 @@ h3 {
 
 #stopwatch {
     font-size: 60px;
+    margin-top: 30px;
 }
 
 #buttons li {

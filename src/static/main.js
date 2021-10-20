@@ -2,8 +2,9 @@ function test() {
     alert("moi!");
   }
 
-// Code of the stopwatch copied from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak
+// Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak
 const timer = document.getElementById('stopwatch');
+const input = document.getElementById('input');
 
 var hr = 0;
 var min = 0;
@@ -58,4 +59,10 @@ function timerCycle() {
 
 function resetTimer() {
     timer.innerHTML = '00:00:00';
+    input.value = ''
+    stoptime=true
+    hr = 0;
+    min = 0;
+    sec = 0;
+
 }
