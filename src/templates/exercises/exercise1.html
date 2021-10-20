@@ -1,1 +1,64 @@
-Tämä on harjoitus 1
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="test">
+    <div class="container">
+        <h1>Exercise 1</h1>
+        <i style="color: red">To do: Parameterize content of the form based on the chosen exercise..</i>
+        <div class="row">
+            <div class="col-8">
+                <h3>Theme</h3>
+                <p>Letters j and d</p>
+                <h3>Instructions</h3>
+                <ul>
+                    <li>Times starts automatically when you start typing</li>
+                    <li>When ready, press enter three times to stop the timer</li>
+                    <li>Each mistake adds 5% to the total time</li>
+                    <li>Press reset to start over again</li>
+                </ul>
+                <h3 >Text to write</h3>
+                <div class="assignment">
+                    <p>ffff jjjj fjfj jfjf ffjj jjff</p>
+                    <p>fjfjfj fffjjj jjjfff jfjfjf</p>
+                </div>
+                <h3 >Your text</h3>
+                <form action="/ready_exercise" method="post">
+                    <textarea class="assignment"></textarea>
+                    <br>
+                    <input type="submit" value="Ready">
+                </form>
+                
+                <button onclick="test()">Reset</button>
+                <!-- Code of the stopwatch copied from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak -->
+                <h3 >Time used</h3>
+                <div id="stopwatch">
+                    00:00:00
+                </div>
+                <ul id="buttons">
+                    <li><button style="margin-left: -50px;" id="stopwatchbutton" onclick="startTimer()">Start</button></li>
+                    <li><button id="stopwatchbutton" onclick="stopTimer()">Stop</button></li>
+                    <li><button id="stopwatchbutton" onclick="resetTimer()">Reset</button></li>
+                </ul>
+            </div>
+            <div class="col-4" id="fame">
+                <h3>Hall of fame</h3>
+                <h4>1. Rami</h4>
+                -Time: 29 seconds<br>
+                -Errors: 1 -> +5% time penalty<br>
+                -Adjusted time: 31 seconds<br>
+
+                <h4>2. Petteri</h4>
+                -Time: 39 seconds<br>
+                -Errors: 2 -> +10% time penalty<br>s
+                -Adjusted time: 44 seconds<br>
+                </div>
+        </div>
+        
+    </div>
+
+    
+
+</body>
+<script src="{{ url_for('static',filename='main.js') }}"></script>
