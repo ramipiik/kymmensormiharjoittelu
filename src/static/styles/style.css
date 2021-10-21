@@ -38,7 +38,7 @@ h3 {
 
 
 /* Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak */
-#stopwatchbutton {
+.stopwatchbutton {
     width: 100px;
     height: 30px;
     border: 3px soldi white;
