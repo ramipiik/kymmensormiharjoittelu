@@ -36,6 +36,9 @@ h3 {
     background-color: whitesmoke;
 }
 
+/* #instructions {
+    display: none; */
+/* } */
 
 /* Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak */
 .stopwatchbutton {

@@ -17,3 +17,13 @@ CREATE TABLE exercises (
     name TEXT,
     description TEXT
 );
+
+CREATE TABLE results (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    exercise_id INTEGER REFERENCES users,
+    used_time INTEGER,
+    adjusted_time INTEGER,
+    sent_at TIMESTAMP
+);
+

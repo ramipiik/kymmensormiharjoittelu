@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect
+import json
 from app import app
-import messages, users, exercises
+import messages, users, exercises, results
 
 @app.route("/")
 def index():
@@ -38,6 +39,17 @@ def create_exercise():
         return redirect("/")
     else:
         return render_template("error.html", message="Harjoituksen luonti ei onnistunut")
+
+@app.route("/new_result", methods=["POST"])
+def add_result():
+    data = request.get_json()
+    exercise_id = data["exercise_id"]
+    used_time=data["used_time"]
+    adjusted_time=data["adjusted_time"]
+    if results.add_result(exercise_id, used_time, adjusted_time):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Could not store the result")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

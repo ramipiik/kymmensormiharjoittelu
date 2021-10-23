@@ -1,3 +1,5 @@
+
+
 function test() {
     alert("moi!");
   }
@@ -11,6 +13,8 @@ const errors = document.getElementById('errors');
 const text_to_write=document.getElementById('textToWrite').innerHTML
 const errorAdjustedTime=document.getElementById('ErrorAdjustedTime')
 const pauseButton=document.getElementById('pauseButton')
+const insructions=document.getElementById('instructions')
+
 
 
 var hr = 0;
@@ -26,6 +30,16 @@ function startTimer() {
     }
   // pauseButton.style.display=""
 }
+
+function toggleInstructions() {
+  if (instructions.style.display == 'none') {
+    instructions.style.display = 'block'
+    document.getElementById('toggleInstructionsButton').innerHTML='Hide'
+  } else {
+    instructions.style.display = 'none'
+    document.getElementById('toggleInstructionsButton').innerHTML='Show'
+  }
+}
 // function stopTimer() {
 //   result.style.display="none"
 //   if (stoptime == false) {
@@ -37,6 +51,39 @@ function startTimer() {
 //   input.style.backgroundColor = "white";
 //   input.focus();
 // }
+
+function secondsToTime(seconds) {
+  console.log("input", seconds)
+  seconds=parseInt(seconds)
+  minutes=0
+  hours=0
+  if (seconds>=60) {
+    console.log("seconds", seconds)
+    minutes=Math.floor(seconds/60)
+    console.log("minutes", minutes)
+    seconds-=minutes*60
+    console.log("seconds", seconds)
+    if (minutes>=60) {
+      hours=Math.floor(minutes/60)
+      minutes-=hours*60
+    }
+  } 
+
+  if (seconds < 10 || seconds == 0) {
+    seconds = '0' + seconds;
+  }
+  if (minutes < 10 || minutes == 0) {
+    minutes = '0' + minutes;
+  }
+  if (hours < 10 || hours == 0) {
+    hours = '0' + hours;
+  }
+
+  var result = hours + ':' + minutes + ':' + seconds;
+  console.log(result)
+  return result
+
+}
 
 function timerCycle() {
     if (stoptime == false) {
@@ -100,7 +147,7 @@ function similarity(s1, s2) {
   }
   var nr_errors=editDistance(longer, shorter)
   sim=(longerLength - nr_errors) / parseFloat(longerLength);
-  if (sim<1) sim-=0.1
+  if (sim<1) sim-=0.075
   if (sim<0) sim=0.000001
   multiplier=sim*sim*sim
   return [nr_errors, multiplier];
@@ -131,6 +178,21 @@ function editDistance(s1, s2) {
   return costs[s2.length];
 }
 
+
+function postRequest(data, URL) {
+  // let data = {element: "barium"};
+  fetch(URL, {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8'
+    },
+    body: JSON.stringify(data)
+  }).then(res => {
+    console.log("Request complete! response:", res);
+  });
+
+}
+
 function ready() {
   if (stoptime == false) {
     stoptime = true;
@@ -139,14 +201,26 @@ function ready() {
   input.disabled = true;
   result.style.display="block"
   var totalSeconds=parseInt(hr)*3600+parseInt(min)*60+parseInt(sec)
-  timeUsed.innerHTML=totalSeconds
+  timeUsed.innerHTML=secondsToTime(totalSeconds)
   var textInput=input.value
   // pauseButton.style.display='none'
   var err;
   var penalty;
   [err, penalty]=(similarity(text_to_write, textInput));
   var adjustedSeconds=parseInt(totalSeconds/penalty);
-  ErrorAdjustedTime.innerHTML=adjustedSeconds;
+  ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
   errors.innerHTML=err;
+  
+  var exercise_id=document.getElementById('exerciseId').innerHTML
+  console.log("exercise_id", exercise_id)
+  exercise_id=parseInt(exercise_id)
+  console.log("exercise_id", exercise_id)
+  data = {
+    exercise_id: exercise_id,
+    used_time: totalSeconds,
+    adjusted_time: adjustedSeconds
+  }
+
+  postRequest(data, "/new_result")
 
 }
