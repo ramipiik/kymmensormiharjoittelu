@@ -8,7 +8,7 @@ def index():
     messages_list = messages.get_list()
     exercises_list = exercises.get_list()
     levels=exercises.get_levels()
-    print(levels)
+    # print(levels)
     return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels)
 
 @app.route("/new")
@@ -18,7 +18,15 @@ def new():
 
 @app.route("/exercises/<int:id>")
 def exercise(id):
-    return render_template("/exercises/exercise"+str(id)+".html")
+    personal_top10=results.get_personal_top10(str(id))
+    latest_results=results.get_latest_results_by_exercise(str(id))
+    latest=results.get_latest(str(id))
+    top10=results.get_top10(str(id))
+    exercise_data=exercises.get_exercise(id)
+    description=exercise_data[0]
+    text_to_write=exercise_data[1]
+    name=exercise_data[2]
+    return render_template("/exercises/exercise.html", personal_top10=personal_top10, top10=top10, latest_results=latest_results, latest=latest, id=id, description=description, text_to_write=text_to_write, name=name)
 
 
 @app.route("/send", methods=["POST"])
@@ -46,7 +54,8 @@ def add_result():
     exercise_id = data["exercise_id"]
     used_time=data["used_time"]
     adjusted_time=data["adjusted_time"]
-    if results.add_result(exercise_id, used_time, adjusted_time):
+    errors=data["errors"]
+    if results.add_result(exercise_id, used_time, adjusted_time, errors):
         return redirect("/")
     else:
         return render_template("error.html", message="Could not store the result")
@@ -58,7 +67,7 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        print("username", username)
+        # print("username", username)
         if users.login(username, password):
             return redirect("/")
         else:

@@ -1,0 +1,102 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<span style="display:none;" id="exerciseId">{{id}}</span>
+<body class="test">
+    <div class="container">
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-8">
+                <h1 style="text-align: left; padding: 5px">{{name}}</h1>
+            </div>
+            <div class="col-4">
+                <a href="/">To main page</a><br>
+                <a href="/logout" style="color: red;">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <h3>Exercise theme</h3>
+                <p>{{description}}</p>
+                <h3>Instructions <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleInstructions()" id="toggleInstructionsButton">Show</button></h3>
+                <ul id="instructions" style="display: none;">
+                    <li>Times starts automatically when you start typing</li>
+                    <li>Press tab when you are ready</li>
+                    <li>Typos increase the total time</li>
+                    <li>Press reset to start over again</li>
+                </ul>
+                <h3 >Text to write</h3>
+                <div class="assignment">
+                    <p id="textToWrite">{{text_to_write}}</p>
+                </div>
+                <h3 >Your text</h3>
+                <div>
+                    <textarea id="input" class="assignment" onkeypress="startTimer()" onblur="ready()" onpaste=" return false"></textarea>
+                </div>
+                <div id="stopwatch">
+                    <!-- 00:00:00 -->
+                    {{latest["used_time"] }}
+                </div>
+                <ul id="buttons">
+                    <li><button class="stopwatchbutton" style="margin-left: -50px;" id="resetbutton" onclick="resetTimer()">Reset</button></li>
+                    <!-- <li><button class="stopwatchbutton" id="pauseButton" onclick="stopTimer()">Pause</button></li> -->
+                </ul>
+                <div id="result" style="margin-top: 35px; display: block;">
+                    {% if latest %}
+                    <h3 style="margin-bottom: -5px;">Latest result</h3>
+                    <span style="color: gray; font-size: small; margin-top: 0px"><i>On {{latest["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</i></span><br>
+                    <div style="margin-top: 10px;">
+                        Time used: <span id="timeUsed">{{latest["used_time"] }}</span><br>
+                        Errors: <span id="errors"><span id="errors">{{latest["errors"] }}</span> <br>
+                        Error-adjusted time: <span id="ErrorAdjustedTime">{{latest["adjusted_time"] }}</span><br>
+                    {% endif %}
+                    </div>
+                </div>
+                <!-- Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak -->
+            </div>
+            <div class="col-4">
+                <div id="fame">
+                    <h3>Hall of fame</h3>
+                    <ol>
+                        {% for result in top10 %}
+                        <li>          
+                            <b>{{result["username"]}}</b>:
+                            {{result["adjusted_time"] }}
+                            <i style="font-size: small; color: gray;"> ({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
+                            {% endfor %}
+                        </li>    
+                    </ol>
+                </div>
+            <div id="fame">
+                {% if personal_top10 %}
+                <h3>Personal top 10</h3>
+                <ol>
+                    {% for result in personal_top10 %}
+                    <li>          
+                        {{result["adjusted_time"] }} <i style="font-size: small; color: gray;">({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
+                        {% endfor %}
+                    </li>    
+                </ol>
+                {% endif %}
+            </div>
+            <div>
+                {% if latest_results %}    
+                <h3>Your history <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3>
+                <!-- <ul> -->
+                    <div id="history" style="display: none";>
+                    {% for result in latest_results %}
+                    <li>
+                        {{result["adjusted_time"] }} <i style="font-size: small; color: gray;">on {{result["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</i><br>
+                        {% endfor %}
+                    </li>
+                {% endif %}
+                <!-- </ul> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script src="{{ url_for('static',filename='main.js') }}"></script>

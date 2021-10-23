@@ -1,9 +1,4 @@
 
-
-function test() {
-    alert("moi!");
-  }
-
 // Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak
 const timer = document.getElementById('stopwatch');
 const input = document.getElementById('input');
@@ -14,6 +9,8 @@ const text_to_write=document.getElementById('textToWrite').innerHTML
 const errorAdjustedTime=document.getElementById('ErrorAdjustedTime')
 const pauseButton=document.getElementById('pauseButton')
 const insructions=document.getElementById('instructions')
+const history=document.getElementById('history')
+var test = document.getElementById('test')
 
 
 
@@ -31,13 +28,13 @@ function startTimer() {
   // pauseButton.style.display=""
 }
 
-function toggleInstructions() {
-  if (instructions.style.display == 'none') {
-    instructions.style.display = 'block'
-    document.getElementById('toggleInstructionsButton').innerHTML='Hide'
+function toggleHistory() {
+  if (history.style.display == 'none') {
+    history.style.display = 'block'
+    document.getElementById('toggleHistoryButton').innerHTML='Hide'
   } else {
-    instructions.style.display = 'none'
-    document.getElementById('toggleInstructionsButton').innerHTML='Show'
+    history.style.display = 'none'
+    document.getElementById('toggleHistoryButton').innerHTML='Show'
   }
 }
 // function stopTimer() {
@@ -51,6 +48,16 @@ function toggleInstructions() {
 //   input.style.backgroundColor = "white";
 //   input.focus();
 // }
+
+function toggleInstructions() {
+  if (instructions.style.display == 'none') {
+    instructions.style.display = 'block'
+    document.getElementById('toggleInstructionsButton').innerHTML='Hide'
+  } else {
+    instructions.style.display = 'none'
+    document.getElementById('toggleInstructionsButton').innerHTML='Show'
+  }
+}
 
 function secondsToTime(seconds) {
   console.log("input", seconds)
@@ -180,7 +187,8 @@ function editDistance(s1, s2) {
 
 
 function postRequest(data, URL) {
-  // let data = {element: "barium"};
+  console.log("post method called")
+
   fetch(URL, {
     method: "POST",
     headers: {
@@ -189,28 +197,34 @@ function postRequest(data, URL) {
     body: JSON.stringify(data)
   }).then(res => {
     console.log("Request complete! response:", res);
+    window.location.reload();
   });
-
 }
 
 function ready() {
   if (stoptime == false) {
     stoptime = true;
   }
+  console.log("ready functino called")
   input.style.backgroundColor = "whiteSmoke";
   input.disabled = true;
   result.style.display="block"
   var totalSeconds=parseInt(hr)*3600+parseInt(min)*60+parseInt(sec)
-  timeUsed.innerHTML=secondsToTime(totalSeconds)
+  if (totalSeconds==0) {
+    return
+  }
+  console.log("total seconds", totalSeconds)
+  // timeUsed.innerHTML=secondsToTime(totalSeconds)
   var textInput=input.value
   // pauseButton.style.display='none'
   var err;
   var penalty;
   [err, penalty]=(similarity(text_to_write, textInput));
+  err=parseInt(err)
+  console.log("errors", err)
   var adjustedSeconds=parseInt(totalSeconds/penalty);
-  ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
-  errors.innerHTML=err;
-  
+  // ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
+  // errors.innerHTML=err;
   var exercise_id=document.getElementById('exerciseId').innerHTML
   console.log("exercise_id", exercise_id)
   exercise_id=parseInt(exercise_id)
@@ -218,9 +232,17 @@ function ready() {
   data = {
     exercise_id: exercise_id,
     used_time: totalSeconds,
-    adjusted_time: adjustedSeconds
+    adjusted_time: adjustedSeconds,
+    errors: err
   }
-
+  
   postRequest(data, "/new_result")
+  timeUsed.innerHTML=secondsToTime(totalSeconds)
+  ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
+  errors.innerHTML=err;
+  result.style.display="block"
+  document.getElementById("test").innerHTML="toka"
 
 }
+
+document.getElementById("test").innerHTML="toka"

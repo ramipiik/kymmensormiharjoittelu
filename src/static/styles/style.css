@@ -32,6 +32,12 @@ h3 {
     margin-top: 20px
 }
 
+#history {
+    border: 1px solid grey;
+    padding: 5px;
+    margin-top: 20px;
+}
+
 #text-to-write {
     background-color: whitesmoke;
 }

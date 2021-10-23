@@ -22,3 +22,8 @@ def create(name, level, description):
     db.session.execute(sql, {"name":name, "level":level, "description":description})
     db.session.commit()
     return True
+
+def get_exercise(id):
+    sql = "SELECT description, text_to_write, name FROM exercises WHERE id=:id"
+    result = db.session.execute(sql, {"id": id}).fetchone()
+    return result
