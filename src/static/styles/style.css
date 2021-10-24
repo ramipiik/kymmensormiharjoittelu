@@ -1,6 +1,7 @@
 h1 {
-    background-color:lightgrey;
+    /* background-color:lightgrey; */
     text-align: center;
+    /* border-bottom: 5px solid rgb(186, 188, 196); */
 }
 
 h3 {
@@ -22,20 +23,37 @@ h3 {
     line-height: 100%;
     letter-spacing: 1px;
     margin-right: 100px;
-    width: 600px;
+    width: 90%;
     height: 100px
 }
 
 #fame {
-    border: 20px solid white;
-    padding: 5px;
-    margin-top: 20px
+    background-color: #eee;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    width: 100%;
+    left: 50%;
+    padding: 4px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding-left: 12px;
 }
 
 #history {
-    border: 1px solid grey;
+    /* border: 1px solid grey;
     padding: 5px;
+    margin-top: 20px; */
+
+    background-color: #eee;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    width: 100%;
+    left: 50%;
+    padding: 4px;
+    box-sizing: border-box;
     margin-top: 20px;
+    padding-left: 12px;
+    margin-bottom: 50px
 }
 
 #text-to-write {
@@ -66,4 +84,43 @@ h3 {
 #buttons li {
     display: inline;
     padding-left: 10px;
+}
+
+body { font-family: sans-serif; }
+
+#id_confrmdiv
+{
+    display: none;
+    background-color: #eee;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    /* position: fixed; */
+    width: 90%;
+    left: 50%;
+    /* margin-left: -150px; */
+    padding: 4px;
+    box-sizing: border-box;
+    margin-top: 40px;
+}
+
+/* #id_confrmdiv button {
+    background-color: #ccc;
+    display: inline-block;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    padding: 2px;
+    text-align: center;
+    width: 80px;
+    cursor: pointer; */
+/* } */
+
+#id_confrmdiv .button:hover
+{
+    background-color: #ddd;
+}
+
+#confirmBox .message
+{
+    text-align: left;
+    margin-bottom: 8px;
 }

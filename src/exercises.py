@@ -14,12 +14,12 @@ def get_levels():
         levels.append(item[0])
     return levels
 
-def create(name, level, description):
+def create(name, level, description, text_to_write):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO exercises (name, level, description) VALUES (:name, :level, :description)"
-    db.session.execute(sql, {"name":name, "level":level, "description":description})
+    sql = "INSERT INTO exercises (name, level, description, text_to_write) VALUES (:name, :level, :description, :text_to_write)"
+    db.session.execute(sql, {"name":name, "level":level, "description":description, "text_to_write": text_to_write})
     db.session.commit()
     return True
 

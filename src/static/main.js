@@ -57,6 +57,8 @@ function toggleInstructions() {
     instructions.style.display = 'none'
     document.getElementById('toggleInstructionsButton').innerHTML='Show'
   }
+  document.getElementById("exampleModal").modal()
+  
 }
 
 function secondsToTime(seconds) {
@@ -90,6 +92,12 @@ function secondsToTime(seconds) {
   console.log(result)
   return result
 
+}
+
+function showModal() {
+  const modal=document.getElementById('myModal')
+  console.log("pressed")
+  modal.style.display='block'
 }
 
 function timerCycle() {
@@ -197,15 +205,15 @@ function postRequest(data, URL) {
     body: JSON.stringify(data)
   }).then(res => {
     console.log("Request complete! response:", res);
-    window.location.reload();
+    // window.location.reload();
   });
 }
 
 function ready() {
+  
   if (stoptime == false) {
     stoptime = true;
   }
-  console.log("ready functino called")
   input.style.backgroundColor = "whiteSmoke";
   input.disabled = true;
   result.style.display="block"
@@ -225,6 +233,7 @@ function ready() {
   var adjustedSeconds=parseInt(totalSeconds/penalty);
   // ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
   // errors.innerHTML=err;
+  
   var exercise_id=document.getElementById('exerciseId').innerHTML
   console.log("exercise_id", exercise_id)
   exercise_id=parseInt(exercise_id)
@@ -236,13 +245,34 @@ function ready() {
     errors: err
   }
   
+
+
+  $("#exampleModal").modal();
+  confirm("joojoo")
+  window.location.reload();
+
   postRequest(data, "/new_result")
   timeUsed.innerHTML=secondsToTime(totalSeconds)
   ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
   errors.innerHTML=err;
   result.style.display="block"
   document.getElementById("test").innerHTML="toka"
-
+  
+  
 }
 
-document.getElementById("test").innerHTML="toka"
+function doSomething(){
+    document.getElementById('id_confrmdiv').style.display="block"; //this is the replace of this line
+
+    document.getElementById('id_truebtn').onclick = function(){
+        // Do your delete operation
+        alert('true');
+    };
+    document.getElementById('id_falsebtn').onclick = function(){
+          alert('false');
+        return false;
+    };
+}
+
+
+// document.getElementById("test").innerHTML="toka"

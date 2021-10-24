@@ -42,8 +42,9 @@ def create_exercise():
     name = request.form["name"]
     description = request.form["description"]
     level = request.form["level"]
+    text_to_write = request.form["text_to_write"]
 
-    if exercises.create(name, level, description):
+    if exercises.create(name, level, description, text_to_write):
         return redirect("/")
     else:
         return render_template("error.html", message="Harjoituksen luonti ei onnistunut")

@@ -1,102 +1,131 @@
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<head>
-    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-</head>
-<span style="display:none;" id="exerciseId">{{id}}</span>
-<body class="test">
-    <div class="container">
-        <div class="row" style="margin-top: 10px;">
-            <div class="col-8">
-                <h1 style="text-align: left; padding: 5px">{{name}}</h1>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <title>10-sormijärjestelmä</title>
+        <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    </head>
+    <span style="display:none;" id="exerciseId">{{id}}</span>
+    <body class="test">
+        <div class="container">
+            <div class="row" style="margin-top: 10px">
+                <div class="col-8">
+                    <h1 style="text-align: left; padding: 5px">{{name}}</h1>
+                </div>
+                <div class="col-4" style="margin-top: 5px;">
+                    <a href="/">To main page</a><br>
+                    <a href="/logout" style="color: red;">Logout</a>
+                </div>
             </div>
-            <div class="col-4">
-                <a href="/">To main page</a><br>
-                <a href="/logout" style="color: red;">Logout</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-8">
-                <h3>Exercise theme</h3>
-                <p>{{description}}</p>
-                <h3>Instructions <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleInstructions()" id="toggleInstructionsButton">Show</button></h3>
-                <ul id="instructions" style="display: none;">
-                    <li>Times starts automatically when you start typing</li>
-                    <li>Press tab when you are ready</li>
-                    <li>Typos increase the total time</li>
-                    <li>Press reset to start over again</li>
-                </ul>
-                <h3 >Text to write</h3>
-                <div class="assignment">
-                    <p id="textToWrite">{{text_to_write}}</p>
-                </div>
-                <h3 >Your text</h3>
-                <div>
-                    <textarea id="input" class="assignment" onkeypress="startTimer()" onblur="ready()" onpaste=" return false"></textarea>
-                </div>
-                <div id="stopwatch">
-                    <!-- 00:00:00 -->
-                    {{latest["used_time"] }}
-                </div>
-                <ul id="buttons">
-                    <li><button class="stopwatchbutton" style="margin-left: -50px;" id="resetbutton" onclick="resetTimer()">Reset</button></li>
-                    <!-- <li><button class="stopwatchbutton" id="pauseButton" onclick="stopTimer()">Pause</button></li> -->
-                </ul>
-                <div id="result" style="margin-top: 35px; display: block;">
-                    {% if latest %}
-                    <h3 style="margin-bottom: -5px;">Latest result</h3>
-                    <span style="color: gray; font-size: small; margin-top: 0px"><i>On {{latest["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</i></span><br>
-                    <div style="margin-top: 10px;">
-                        Time used: <span id="timeUsed">{{latest["used_time"] }}</span><br>
-                        Errors: <span id="errors"><span id="errors">{{latest["errors"] }}</span> <br>
-                        Error-adjusted time: <span id="ErrorAdjustedTime">{{latest["adjusted_time"] }}</span><br>
-                    {% endif %}
+            <hr style="height: 2px; margin-top: 0px; background-color: #bec1c4; border: 0 none;">
+            <div class="row">
+                <div class="col-8">
+                    <h3>Theme</h3>
+                    <p>{{description}}</p>
+                    <h3>Instructions <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleInstructions()" id="toggleInstructionsButton">Show</button></h3>
+                    <ul id="instructions" style="display: none;">
+                        <li>Times starts automatically when you start typing</li>
+                        <li>Press tab when you are ready</li>
+                        <li>Typos increase the total time</li>
+                        <li>Press reset to start over again</li>
+                    </ul>
+                    <h3 >Text to write</h3>
+                    <div class="assignment">
+                        <p id="textToWrite">{{text_to_write}}</p>
+                    </div>
+                    <h3 >Your text</h3>
+                    <div>
+                        <textarea id="input" class="assignment" onkeypress="startTimer()" onblur="ready()" onpaste=" return false" ></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">   
+                            <div id="stopwatch">
+                                00:00:00
+                                <!-- {{latest["used_time"] }} -->
+                            </div>
+                            <ul id="buttons">
+                                <li><button class="stopwatchbutton" style="margin-left: -50px;" id="resetbutton" onclick="resetTimer()">Reset</button></li>
+                                <button onclick="doSomething()">submit</button>
+                                <!-- <li><button class="stopwatchbutton" id="pauseButton" onclick="stopTimer()">Pause</button></li> -->
+                            </ul>
+                        </div>
+                        <div class="col-4">  
+                            <div id="id_confrmdiv" style="display: none;">
+                                <div id="result" style="margin-top: 5px; display: block;">
+                                    <!-- {% if latest %} -->
+                                    <span style="color: gray; font-size: small; margin-top: 0px"><i>Exercise completed on {{latest["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</i></span><br>
+                                    <div>
+                                        Time used: <span id="timeUsed">{{latest["used_time"] }}</span><br>
+                                        Errors: <span id="errors"><span id="errors">{{latest["errors"] }}</span> <br>
+                                        Error-adjusted time: <span id="ErrorAdjustedTime">{{latest["adjusted_time"] }}</span><br>
+                                    <!-- {% endif %} -->
+                                    </div>
+                                </div>
+                                <button id="id_truebtn" class="btn btn-success">Ok</button>
+                                <button id="id_falsebtn" class="btn btn-danger">Cancel</button>
+                            </div>
+                            
+                            
+                            <!-- Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak -->
+                        </div>
                     </div>
                 </div>
-                <!-- Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak -->
-            </div>
-            <div class="col-4">
-                <div id="fame">
+                <div class="col-4">
                     <h3>Hall of fame</h3>
-                    <ol>
-                        {% for result in top10 %}
-                        <li>          
-                            <b>{{result["username"]}}</b>:
-                            {{result["adjusted_time"] }}
-                            <i style="font-size: small; color: gray;"> ({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
-                            {% endfor %}
-                        </li>    
-                    </ol>
+                    <div id="fame">
+                        <ol style="padding-left: 25px;">
+                            {% for result in top10 %}
+                            <li>          
+                                <b>{{result["username"]}}</b>:
+                                {{result["adjusted_time"] }}
+                                <i style="font-size: small; color: gray;"> ({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
+                                {% endfor %}
+                            </li>    
+                        </ol>
+                    </div>
+                    <h3 style="margin-top: 25px;">Personal top 10</h3>
+                    <div id="fame";">
+                        {% if personal_top10 %}
+                        <ol style="padding-left: 25px;">
+                            {% for result in personal_top10 %}
+                            <li>          
+                                {{result["adjusted_time"] }} <i style="font-size: small; color: gray;">({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
+                                {% endfor %}
+                            </li>    
+                        </ol>
+                        {% endif %}
+                    </div>
                 </div>
-            <div id="fame">
-                {% if personal_top10 %}
-                <h3>Personal top 10</h3>
-                <ol>
-                    {% for result in personal_top10 %}
-                    <li>          
-                        {{result["adjusted_time"] }} <i style="font-size: small; color: gray;">({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
-                        {% endfor %}
-                    </li>    
-                </ol>
-                {% endif %}
             </div>
-            <div>
-                {% if latest_results %}    
-                <h3>Your history <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3>
-                <!-- <ul> -->
-                    <div id="history" style="display: none";>
-                    {% for result in latest_results %}
-                    <li>
-                        {{result["adjusted_time"] }} <i style="font-size: small; color: gray;">on {{result["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</i><br>
-                        {% endfor %}
-                    </li>
-                {% endif %}
-                <!-- </ul> -->
+            <div class="row">
+                <div class="col-12">
+                    {% if latest_results %}    
+                    <h3>Your history <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3>
+                        <div id="history" style="display: none";>
+                            <div class="row" style="font-weight: bold;">
+                                <span class="col-2" >Date</span>
+                                <span class="col-1" >Result</span>
+                                <span class="col-1" >Errors</span>
+                                <span class="col-2" >Original time</span>   
+                            </div>
+                            <hr style="margin-top: 2px; margin-bottom: 6px;">
+                            {% for result in latest_results %}    
+                            <div class="row">
+                                <span class="col-2" >{{result["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</span>
+                                <span class="col-1" >{{result["adjusted_time"]}}</span>    
+                                <span class="col-1" >{{result["errors"]}}</span>
+                                <span class="col-2" >{{result["used_time"]}}</span>
+                                
+                                
+                            </div>
+                            {% endfor %}
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-
-</body>
-<script src="{{ url_for('static',filename='main.js') }}"></script>
+    </body>
+    <script src="{{ url_for('static',filename='main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</html>
