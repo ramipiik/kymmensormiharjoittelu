@@ -37,7 +37,7 @@ def secondsToTime(seconds):
 
 def get_personal_top10(exercise):
     user = users.user_id()
-    sql = "SELECT adjusted_time, sent_at FROM results WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 10"
+    sql = "SELECT users.username, results.adjusted_time, results.sent_at FROM results LEFT JOIN users ON users.id=results.user_id WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 10"
     result = db.session.execute(sql, {"user_id": user, "exercise_id": exercise})
     data=result.fetchall()
     newData=[]
@@ -45,6 +45,7 @@ def get_personal_top10(exercise):
         newData.append({})
         newData[i]["adjusted_time"]=secondsToTime(item["adjusted_time"])
         newData[i]["sent_at"]=item["sent_at"]
+        newData[i]["username"]=item["username"]
     return newData
 
 def get_top10(exercise):

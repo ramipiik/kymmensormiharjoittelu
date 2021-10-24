@@ -35,3 +35,4 @@ def signup(username, password):
 
 def user_id():
     return session.get("user_id",0)
+    

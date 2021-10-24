@@ -65,61 +65,73 @@
                                 <button id="id_truebtn" class="btn btn-success">Ok</button>
                                 <button id="id_falsebtn" class="btn btn-danger">Cancel</button>
                             </div>
-                            
-                            
                             <!-- Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak -->
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 30px;">
+                        <div class="col-8">
+                            {% if latest_results %}    
+                                <h3>Your history <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3>
+                                <table class="table table-striped" id="history" style="display: none; margin-top: 20px; ">
+                                    <div >
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Result</th>
+                                            <th>Errors</th>
+                                            <th>Original time</th>
+                                        </tr>
+                                        {% for result in latest_results %}
+                                            <tr style="line-height: 75%;">    
+                                                <td>{{result["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</td>
+                                                <td>{{result["adjusted_time"]}}</td>    
+                                                <td>{{result["errors"]}}</td>
+                                                <td>{{result["used_time"]}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </div>
+                                </table>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 <div class="col-4">
-                    <h3>Hall of fame</h3>
-                    <div id="fame">
-                        <ol style="padding-left: 25px;">
-                            {% for result in top10 %}
-                            <li>          
-                                <b>{{result["username"]}}</b>:
-                                {{result["adjusted_time"] }}
-                                <i style="font-size: small; color: gray;"> ({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
+                    <h3>Hall of Fame</h3>
+                    {% if top10 %}
+                        <table class="table table-striped" style="margin-top: 10px; ">
+                            <div >
+                                <tr style="line-height: 75%;">
+                                    <th>Player</th>
+                                    <th>Date</th>
+                                    <th>Result</th>
+                                </tr>
+                                {% for result in top10 %}
+                                <tr style="line-height: 40%;">    
+                                    <td>{{result["username"]}}</td>    
+                                    <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>
+                                    <td>{{result["adjusted_time"]}}</td>    
+                                </tr>
                                 {% endfor %}
-                            </li>    
-                        </ol>
-                    </div>
-                    <h3 style="margin-top: 25px;">Personal top 10</h3>
-                    <div id="fame";">
-                        {% if personal_top10 %}
-                        <ol style="padding-left: 25px;">
-                            {% for result in personal_top10 %}
-                            <li>          
-                                {{result["adjusted_time"] }} <i style="font-size: small; color: gray;">({{result["sent_at"].strftime("%Y-%m-%d")}})</i><br>
+                            </div>
+                        </table>
+                    {% endif %}
+                    <h3 style="margin-top: 25px;">Personal Best</h3>
+                    {% if personal_top10 %}
+                        <table class="table table-striped" style="margin-top: 10px; ">
+                            <div >
+                                <tr style="line-height: 75%;">
+                                    <th>Player</th>
+                                    <th>Date</th>
+                                    <th>Result</th>
+                                </tr>
+                                {% for result in personal_top10 %}
+                                <tr style="line-height: 40%;">
+                                    <td>{{result["username"]}}</td>        
+                                    <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>
+                                    <td>{{result["adjusted_time"]}}</td>    
+                                </tr>
                                 {% endfor %}
-                            </li>    
-                        </ol>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    {% if latest_results %}    
-                    <h3>Your history <button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3>
-                        <div id="history" style="display: none";>
-                            <div class="row" style="font-weight: bold;">
-                                <span class="col-2" >Date</span>
-                                <span class="col-1" >Result</span>
-                                <span class="col-1" >Errors</span>
-                                <span class="col-2" >Original time</span>   
                             </div>
-                            <hr style="margin-top: 2px; margin-bottom: 6px;">
-                            {% for result in latest_results %}    
-                            <div class="row">
-                                <span class="col-2" >{{result["sent_at"].strftime("%Y-%m-%d at %H:%M")}}</span>
-                                <span class="col-1" >{{result["adjusted_time"]}}</span>    
-                                <span class="col-1" >{{result["errors"]}}</span>
-                                <span class="col-2" >{{result["used_time"]}}</span>
-                                
-                                
-                            </div>
-                            {% endfor %}
+                        </table>
                     {% endif %}
                 </div>
             </div>
