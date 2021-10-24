@@ -88,17 +88,17 @@ h3 {
 
 body { font-family: sans-serif; }
 
-#id_confrmdiv
+#resultBox
 {
     display: none;
-    background-color: #eee;
+        /* background-color: #eee; */
     border-radius: 5px;
-    border: 1px solid #aaa;
+    /* border: 1px solid #aaa; */
     /* position: fixed; */
     width: 90%;
     left: 50%;
     /* margin-left: -150px; */
-    padding: 4px;
+    padding: 8px;
     box-sizing: border-box;
     margin-top: 40px;
 }

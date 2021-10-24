@@ -20,13 +20,14 @@ def new():
 def exercise(id):
     personal_top10=results.get_personal_top10(str(id))
     latest_results=results.get_latest_results_by_exercise(str(id))
-    latest=results.get_latest(str(id))
+    # latest=results.get_latest(str(id))
     top10=results.get_top10(str(id))
     exercise_data=exercises.get_exercise(id)
     description=exercise_data[0]
     text_to_write=exercise_data[1]
     name=exercise_data[2]
-    return render_template("/exercises/exercise.html", personal_top10=personal_top10, top10=top10, latest_results=latest_results, latest=latest, id=id, description=description, text_to_write=text_to_write, name=name)
+    approved=results.is_approved(str(id))
+    return render_template("/exercise.html", personal_top10=personal_top10, top10=top10, latest_results=latest_results, id=id, description=description, text_to_write=text_to_write, name=name, approved=approved)
 
 
 @app.route("/send", methods=["POST"])

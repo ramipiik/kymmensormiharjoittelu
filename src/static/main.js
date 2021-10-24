@@ -2,16 +2,19 @@
 // Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak
 const timer = document.getElementById('stopwatch');
 const input = document.getElementById('input');
-const result = document.getElementById('result');
+// const result = document.getElementById('result');
 const timeUsed = document.getElementById('timeUsed');
 const errors = document.getElementById('errors');
 const text_to_write=document.getElementById('textToWrite').innerHTML
 const errorAdjustedTime=document.getElementById('ErrorAdjustedTime')
 const pauseButton=document.getElementById('pauseButton')
+const resetButton=document.getElementById('resetButton')
 const insructions=document.getElementById('instructions')
 const history=document.getElementById('history')
 var test = document.getElementById('test')
-
+var resultBox=document.getElementById('resultBox')
+var date = document.getElementById('date')
+var time = document.getElementById('time')
 
 
 var hr = 0;
@@ -24,6 +27,8 @@ function startTimer() {
   if (stoptime == true) {
         stoptime = false;
         timerCycle();
+        // resetButton.style.display=""
+      
     }
   // pauseButton.style.display=""
 }
@@ -88,6 +93,11 @@ function secondsToTime(seconds) {
     hours = '0' + hours;
   }
 
+  // if (hours>100) {
+  //   hours=99;
+  //   minutes=59
+  //   seconds=59
+  // }
   var result = hours + ':' + minutes + ':' + seconds;
   console.log(result)
   return result
@@ -145,7 +155,8 @@ function resetTimer() {
     sec = 0;
     input.style.backgroundColor = "white";
     input.disabled = false;
-    if (result.style.display != "none") result.style.display="none"
+    if (resultBox.style.display != "none") resultBox.style.display="none"
+    // resetButton.style.display='none'
     input.focus();
 }
 
@@ -205,24 +216,25 @@ function postRequest(data, URL) {
     body: JSON.stringify(data)
   }).then(res => {
     console.log("Request complete! response:", res);
-    // window.location.reload();
+    window.location.reload();
   });
 }
 
-function ready() {
-  
+
+function submit(){
+    
   if (stoptime == false) {
     stoptime = true;
   }
   input.style.backgroundColor = "whiteSmoke";
   input.disabled = true;
-  result.style.display="block"
+  // result.style.display="block"
   var totalSeconds=parseInt(hr)*3600+parseInt(min)*60+parseInt(sec)
   if (totalSeconds==0) {
     return
   }
   console.log("total seconds", totalSeconds)
-  // timeUsed.innerHTML=secondsToTime(totalSeconds)
+  timeUsed.innerHTML=secondsToTime(totalSeconds)
   var textInput=input.value
   // pauseButton.style.display='none'
   var err;
@@ -231,47 +243,41 @@ function ready() {
   err=parseInt(err)
   console.log("errors", err)
   var adjustedSeconds=parseInt(totalSeconds/penalty);
-  // ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
-  // errors.innerHTML=err;
-  
-  var exercise_id=document.getElementById('exerciseId').innerHTML
-  console.log("exercise_id", exercise_id)
-  exercise_id=parseInt(exercise_id)
-  console.log("exercise_id", exercise_id)
-  data = {
-    exercise_id: exercise_id,
-    used_time: totalSeconds,
-    adjusted_time: adjustedSeconds,
-    errors: err
+  if (adjustedSeconds>359999) {
+    adjustedSeconds=359999
   }
-  
-
-
-  $("#exampleModal").modal();
-  confirm("joojoo")
-  window.location.reload();
-
-  postRequest(data, "/new_result")
-  timeUsed.innerHTML=secondsToTime(totalSeconds)
   ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
   errors.innerHTML=err;
-  result.style.display="block"
-  document.getElementById("test").innerHTML="toka"
   
+
+  var today = new Date();
+  var d = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var t = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  date.innerHTML=d
+  time.innerHTML=t
+
   
-}
+  resultBox.style.display="block";
 
-function doSomething(){
-    document.getElementById('id_confrmdiv').style.display="block"; //this is the replace of this line
+  document.getElementById('id_truebtn').onclick = function(){
+      var exercise_id=document.getElementById('exerciseId').innerHTML
+      console.log("exercise_id", exercise_id)
+      exercise_id=parseInt(exercise_id)
+      console.log("exercise_id", exercise_id)
+      data = {
+        exercise_id: exercise_id,
+        used_time: totalSeconds,
+        adjusted_time: adjustedSeconds,
+        errors: err
+      }
+      postRequest(data, "/new_result")
 
-    document.getElementById('id_truebtn').onclick = function(){
-        // Do your delete operation
-        alert('true');
-    };
-    document.getElementById('id_falsebtn').onclick = function(){
-          alert('false');
-        return false;
-    };
+      
+  };
+  document.getElementById('id_falsebtn').onclick = function(){
+        alert('false');
+      return false;
+  };
 }
 
 
