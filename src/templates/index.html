@@ -1,18 +1,20 @@
 {% if not session.user_id %}
+
 <a href="/login">Kirjaudu sisään:</a>
 
 {% else %}
+<span id="total_tried_helper" style="display: none;">{{total_tried}}</span>
 <p>Olet kirjautunut sisään tunnuksella: {{ session.username }}. <a href="/logout">Kirjaudu ulos</a> </p>
-Exercises tried: x / x<br>
-Exercises passed: x / x<br>
 <p><a href="/new">Luo harjoitus</a></p>
 
 <p>Filter exercises by level:</p>
 {% for level in levels %}
-    <input type="radio" name="chosen_level" value={{level}} onclick="filter({{level}})"> {{level}}
+    <input type="radio" name="chosen_level" value={{level}} onclick="filter({{level}}, {{tried}})"> {{level}}
 {% endfor %}
-<input type="radio" name="chosen_level" value="All" onclick="filter('all')"> All
-
+<input type="radio" name="chosen_level" value="All" onclick="filter('all')"> All<br><br>
+Number of exercises: <span id="totalExercises">{{total}}</span><br>
+Exercises tried: <span id="tried">{{total_tried}}</span><br>
+Exercises passed: <span id="passed">x</span><br>
 <h2>Harjoitukset:</h2>
 <hr>
     {% for exercise in exercises %}
@@ -29,18 +31,30 @@ Exercises passed: x / x<br>
 {% endif %}
 
 <script>
-    function filter(input) {
+    function filter(level, tried) {
         elements = document.getElementsByName('item');
         // Loop through all list items, and hide those who don't match the search query
+        count=0
+        
         for (i = 0; i < elements.length; i++) {
             a = elements[i].getElementsByTagName("span")[0];
             txtValue = a.textContent || a.innerText;
-            if (txtValue == input.toString() || input=="all") {
+            if (txtValue == level.toString() || level=="all") {
                 elements[i].style.display = "";
+                count++;
             }
             else {
                 elements[i].style.display = "none";
             } 
         }
+        document.getElementById("totalExercises").innerHTML=count
+
+        tried_on_this_level=document.getElementById("total_tried_helper").innerHTML
+        console.log("tried_on_this_level", tried_on_this_level)
+        if (level != 'all'){
+            tried_on_this_level=tried[level]
+        }
+        document.getElementById("tried").innerHTML=tried_on_this_level
+
     }
 </script>

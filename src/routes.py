@@ -7,9 +7,12 @@ import messages, users, exercises, results
 def index():
     messages_list = messages.get_list()
     exercises_list = exercises.get_list()
+    total=len(exercises_list)
     levels=exercises.get_levels()
+    # passed=exercises.get_passed()
+    tried=exercises.get_tried()
     # print(levels)
-    return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels)
+    return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels, total=total, tried=tried[0], total_tried=tried[1])
 
 @app.route("/new")
 def new():
