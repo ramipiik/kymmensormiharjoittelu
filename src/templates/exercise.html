@@ -27,22 +27,23 @@
             <hr style="height: 2px; margin-top: 0px; background-color: #bec1c4; border: 0 none;">
             <div style="margin-top: -10px; font-size: small;">
                 {% if approved %}
-                    Exercise status: Approved
+                    <span style="color: green;">Exercise status: Approved</span>
                 {% else %}
                     <span style="color: red;">Exercise status: Not approved</span>
                 {% endif %}
             </div>
             
             <div class="row">
-                <div class="col-8">
+                <div class="col-7">
                     <h3>Theme</h3>
-                    <p>{{description}}</p>
-                    <h3>Instructions <button style="margin-left: 20px;" type="button" class="btn btn-link" onclick="toggleInstructions()" id="toggleInstructionsButton">Show</button></h3>
+                    <p style="margin-bottom: 0px;">{{description}}</p>
+                    <!-- <h3>Instructions <button style="margin-left: 20px;" type="button" class="btn btn-link" onclick="toggleInstructions()" id="toggleInstructionsButton">Show</button></h3> -->
+                    <h3>Instructions <a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleInstructions()" href="javascript:void(0);" id="toggleInstructionsButton">Show</a></h3>
                     <ul id="instructions" style="display: none; padding-right: 50px;" >
                         <li>Times starts automatically when you start typing</li>
                         <li>Press tab when you are ready</li>
                         <li>Typos increase the total time</li>
-                        <li>Passing the exercise requires less than 5% errors and a typing speed of more than 2 characters per second
+                        <li>Passing the exercise requires less than 5% errors and a typing speed of more than 120 characters per minute
                         </li>
                     </ul>
                     <h3 >Text to write</h3>
@@ -53,100 +54,122 @@
                     <div>
                         <textarea id="input" class="assignment" onkeypress="startTimer()" onblur="submit()" onpaste=" return false" ></textarea>
                     </div>
-                    <div class="row">
+                    
+                    <div class="row" style="margin-top: 25px;">
                         <div class="col-5">   
                             <!-- Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak -->
-                            <div id="stopwatch">
+                            <div id="stopwatch" style="margin-bottom: 20px;">
                                 00:00:00
-                            </div>
-                            <ul id="buttons">
-                                <li><button class="btn btn-danger" style="margin-left: -50px;" id="resetButton" onclick="resetTimer()">Reset</button></li>
-                                <!-- <li><button class="stopwatchbutton" id="pauseButton" onclick="stopTimer()">Pause</button></li> -->
-                            </ul>
+                            </div>                            
+                            <!-- <button class="btn btn-danger" style=" margin-top: 71px; width: 95%;" id="resetButton" onclick="resetTimer()">Reset</button></li> -->
+                            <!-- <li><button class="stopwatchbutton" id="pauseButton" onclick="stopTimer()">Pause</button></li> -->                            
                         </div>
                         <div class="col-6">  
-                            <div id="resultBox" style="display: none;">
+                            <div id="resultBox" style="display: none; margin-left: 20px;">
                                 <!-- <div id="result" style="margin-top: 5px; display: block;"> -->
-                                    <span style="color: gray; font-size: small; margin-top: 0px"><i>Exercise completed on <span id="date"></span> at <span id="time"></span></i></span><br>
+                                    <!-- <span style="color: gray; font-size: small; margin-top: 0px"><i>Completed on <span id="date"></span> at <span id="time"></span></i></span><br> -->
+                                    
                                     <div style="margin-top: 5px;">
-                                        Time used: <span id="timeUsed"></span><br>
-                                        Errors: <span id="errors"></span> <br>
+                                        Time: <span id="timeUsed"></span><br>
+                                        Speed: <span id="speed"></span> char/min<br>
+                                        Number of errors: <span id="errors"></span> <br>
+                                        Error rate: <span id="error_rate"></span> % <br>
+                                        <hr style="margin-top: 2px; margin-bottom: 4px;">
                                         <b>Result: <span id="ErrorAdjustedTime"></span></b><br>
                                     </div>
                                 <!-- </div> -->
                                 <div style="margin-top: 20px;">
-                                    <button id="id_truebtn" class="btn btn-success" style="margin-right: 20px; width: 100px;">Ok</button>
+                                    <!-- <button id="id_truebtn" class="btn btn-success" style="margin-right: 20px; width: 90%;">Ok</button> -->
                                     <!-- <button id="id_falsebtn" class="btn btn-danger" style="width: 100px;">Cancel</button> -->
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="btn btn-danger" style="width: 85%;" id="resetButton" onclick="resetTimer()">Reset</button></li>
+                        </div>
+                        <div class="col-6">
+                            <button id="id_truebtn" class="btn btn-success" style=" margin-left: -30px; width: 85%; display: none;">Ok</button>
+                        </div>  
+                    </div>
                 </div>
-                <div class="col-4">
-                    {% if top10 %}
-                    <h3>Hall of Fame</h3>
-                        <table class="table table-striped" style="margin-top: 10px; ">
-                            <div >
-                                <tr style="line-height: 75%;">
-                                    <th>Result</th>
-                                    <th>Player</th>
-                                    <th>Errors</th>
-                                    <th>Date</th>
-                                </tr>
-                                {% for result in top10 %}
-                                <tr style="line-height: 40%;">
-                                    <td>{{result["adjusted_time"]}}</td>    
-                                    <td>{{result["username"]}}</td>    
-                                    <td>{{result["errors"]}}</td>    
-                                    <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>    
-                                </tr>
-                                {% endfor %}
-                            </div>
-                        </table>
-                    {% endif %}
-                    {% if personal_top10 %}
-                    <h3 style="margin-top: 20px;">Personal Best</h3>
-                        <table class="table table-striped" style="margin-top: 10px; ">
-                            <div >
-                                <tr style="line-height: 75%;">
-                                    <th>Result</th>
-                                    <th>Player</th>
-                                    <th>Errors</th>
-                                    <th>Date</th>
-                                </tr>
-                                {% for result in personal_top10 %}
-                                <tr style="line-height: 40%;">  
-                                    <td>{{result["adjusted_time"]}}</td>
-                                    <td>{{result["username"]}}</td>      
-                                    <td>{{result["errors"]}}</td>  
-                                    <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>
-                                </tr>
-                                {% endfor %}
-                            </div>
-                        </table>
-                    {% endif %}
-                    {% if latest_results %}    
-                        <!-- <h3>Personal Latest<button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3> -->
-                        <h3 style="margin-top: 20px;">Personal Latest</h3>
-                        <table class="table table-striped" id="history" style="margin-top: 20px; ">
-                            <div >
-                                <tr style="line-height: 75%;">
-                                    <th>Result</th>
-                                    <th>Player</th>
-                                    <th>Errors</th>
-                                    <th>Date</th>
-                                </tr>
-                                {% for result in latest_results %}
-                                <tr style="line-height: 40%;">  
-                                    <td>{{result["adjusted_time"]}}</td>
-                                    <td>{{result["username"]}}</td>      
-                                    <td>{{result["errors"]}}</td>  
-                                    <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>
-                                </tr>
-                                {% endfor %}
-                            </div>
-                        </table>
-                    {% endif %}
+                
+                <div class="col-5">
+                    <h3>Score Board<a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleScoreBoard()" href="javascript:void(0);" id="toggleScoreBoardButton">Hide</a></h3>
+                    <hr>
+                    <div id="scoreBoard"> 
+                        {% if top10 %}
+                        <h4 style="margin-top: 30px;">Hall of Fame</h4>
+                            <table class="table table-striped" style="margin-top: 10px; ">
+                                <div >
+                                    <tr style="line-height: 75%;">
+                                        <th>Player</th>
+                                        <th>Result</th>
+                                        <th>Error<br>rate</th>
+                                        <th>Speed<br><span style="font-size: xx-small; color: gray;">char/min</span></th>
+                                        <th>Date</th>
+                                    </tr>
+                                    {% for result in top10 %}
+                                    <tr style="line-height: 40%;">
+                                        <td>{{result["username"]}}</td>      
+                                        <td>{{result["adjusted_time"]}}</td>
+                                        <td>{{result["error_rate"]}}</td>  
+                                        <td>{{result["typing_speed"]}}</td>  
+                                        <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </div>
+                            </table>
+                        {% endif %}
+                        {% if personal_top10 %}
+                        <h4 style="margin-top: 40px;">Personal Best</h4>
+                            <table class="table table-striped" style="margin-top: 10px; ">
+                                <div >
+                                    <tr style="line-height: 75%;">
+                                        <th>Player</th>
+                                        <th>Result</th>
+                                        <th>Error<br>rate</th>
+                                        <th>Speed<br><span style="font-size: xx-small; color: gray;">char/min</span></th>
+                                        <th>Date</th>
+                                    </tr>
+                                    {% for result in personal_top10 %}
+                                    <tr style="line-height: 40%;">  
+                                        <td>{{result["username"]}}</td>      
+                                        <td>{{result["adjusted_time"]}}</td>
+                                        <td>{{result["error_rate"]}}</td>  
+                                        <td>{{result["typing_speed"]}}</td>  
+                                        <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </div>
+                            </table>
+                        {% endif %}
+                        {% if latest_results %}    
+                            <!-- <h3>Personal Latest<button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3> -->
+                            <h4 style="margin-top: 40px;">Personal Latest</h4>
+                            <table class="table table-striped" id="history" style="margin-top: 10px; ">
+                                <div >
+                                    <tr style="line-height: 75%;">
+                                        <th>Player</th>
+                                        <th>Result</th>
+                                        <th>Error<br>rate</th>
+                                        <th>Speed<br><span style="font-size: xx-small; color: gray;">char/min</span></th>
+                                        <th>Date</th>
+                                    </tr>
+                                    {% for result in latest_results %}
+                                    <tr style="line-height: 40%;">  
+                                        <td>{{result["username"]}}</td>      
+                                        <td>{{result["adjusted_time"]}}</td>
+                                        <td>{{result["error_rate"]}}</td>  
+                                        <td>{{result["typing_speed"]}}</td>  
+                                        <td>{{result["sent_at"].strftime("%Y-%m-%d")}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </div>
+                            </table>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

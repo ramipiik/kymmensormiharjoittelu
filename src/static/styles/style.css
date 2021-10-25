@@ -54,7 +54,7 @@ h3 {
     margin-top: 20px;
     padding-left: 12px;
     margin-bottom: 50px */
-} */
+/* } */
 
 #text-to-write {
     background-color: whitesmoke;
@@ -65,7 +65,7 @@ h3 {
 /* } */
 
 /* Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak */
-.stopwatchbutton {
+/* .stopwatchbutton {
     width: 100px;
     height: 30px;
     border: 3px soldi white;
@@ -74,17 +74,17 @@ h3 {
     color: white;
     cursor: pointer;
     outline: none;
-}
+} */
 
 #stopwatch {
-    font-size: 60px;
-    margin-top: 30px;
+    font-size: 50px;
+    /* margin-top: 30px; */
 }
 
-#buttons li {
+/* #buttons li {
     display: inline;
     padding-left: 10px;
-}
+} */
 
 body { font-family: sans-serif; }
 
@@ -100,7 +100,7 @@ body { font-family: sans-serif; }
     /* margin-left: -150px; */
     padding: 8px;
     box-sizing: border-box;
-    margin-top: 40px;
+    /* margin-top: 40px; */
 }
 
 /* #id_confrmdiv button {
@@ -114,10 +114,10 @@ body { font-family: sans-serif; }
     cursor: pointer; */
 /* } */
 
-#id_confrmdiv .button:hover
+/* #id_confrmdiv .button:hover
 {
     background-color: #ddd;
-}
+} */
 
 #confirmBox .message
 {

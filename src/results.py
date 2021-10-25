@@ -35,9 +35,9 @@ def secondsToTime(seconds):
 
   return result
 
-def get_personal_top10(exercise):
+def get_personal_top10(exercise, text_length):
     user = users.user_id()
-    sql = "SELECT users.username, results.adjusted_time, results.sent_at, results.errors FROM results LEFT JOIN users ON users.id=results.user_id WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 5"
+    sql = "SELECT users.username, results.adjusted_time, results.used_time, results.sent_at, results.errors FROM results LEFT JOIN users ON users.id=results.user_id WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 5"
     result = db.session.execute(sql, {"user_id": user, "exercise_id": exercise})
     data=result.fetchall()
     newData=[]
@@ -47,11 +47,14 @@ def get_personal_top10(exercise):
         newData[i]["sent_at"]=item["sent_at"]
         newData[i]["username"]=item["username"]
         newData[i]["errors"]=item["errors"]
+        newData[i]["used_time"]=item["used_time"]
+        newData[i]["typing_speed"]=int(round(text_length*60/item["used_time"], 0))
+        newData[i]["error_rate"]=str(round(item["errors"]/text_length*100, 1))+' %'
     return newData
 
-def get_top10(exercise):
+def get_top10(exercise, text_length):
     # sql = "SELECT adjusted_time, sent_at FROM results WHERE exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 10"
-    sql= "SELECT users.username, results.adjusted_time, results.sent_at, results.errors FROM results LEFT JOIN users ON users.id=results.user_id WHERE exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 5"
+    sql= "SELECT users.username, results.adjusted_time, results.used_time, results.sent_at, results.errors FROM results LEFT JOIN users ON users.id=results.user_id WHERE exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 5"
     result = db.session.execute(sql, {"exercise_id": exercise})
     data=result.fetchall()
     newData=[]
@@ -61,11 +64,16 @@ def get_top10(exercise):
         newData[i]["sent_at"]=item["sent_at"]
         newData[i]["username"]=item["username"]
         newData[i]["errors"]=item["errors"]
+        newData[i]["used_time"]=item["used_time"]
+        newData[i]["typing_speed"]=int(round(text_length*60/item["used_time"], 0))
+        newData[i]["error_rate"]=str(round(item["errors"]/text_length*100, 1))+' %'
     return newData
 
-def get_latest_results_by_exercise(exercise):
+
+
+def get_latest_results_by_exercise(exercise, text_length):  
     user = users.user_id()
-    sql = "SELECT users.username, results.adjusted_time, results.sent_at, results.errors FROM results LEFT JOIN users ON users.id=results.user_id WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY sent_at DESC LIMIT 100"
+    sql = "SELECT users.username, results.adjusted_time, results.sent_at, results.errors, results.used_time FROM results LEFT JOIN users ON users.id=results.user_id WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY sent_at DESC LIMIT 100"
     result = db.session.execute(sql, {"user_id": user, "exercise_id": exercise})
     data=result.fetchall()
     newData=[]
@@ -75,10 +83,11 @@ def get_latest_results_by_exercise(exercise):
         newData[i]["sent_at"]=item["sent_at"]
         newData[i]["username"]=item["username"]
         newData[i]["errors"]=item["errors"]
+        newData[i]["used_time"]=item["used_time"]
+        newData[i]["typing_speed"]=int(round(text_length*60/item["used_time"], 0))
+        newData[i]["error_rate"]=str(round(item["errors"]/text_length*100, 1))+' %'
     return newData
 
-MAX_ERROR_RATE = 0.05
-MIN_TYPING_RATE = 2 #letters per second  
 
 def is_approved(exercise):
     user = users.user_id()
@@ -97,7 +106,11 @@ def is_approved(exercise):
     text_length=len(newData["text_to_write"])
     time=int(newData["used_time"])
     errors=int(newData["errors"])
-    typing_rate=text_length/time
+    
+    MAX_ERROR_RATE = 0.05
+    MIN_TYPING_RATE = 120 #letters per minute  
+
+    typing_rate=text_length*60/time
     error_rate=errors/text_length
     if typing_rate>MIN_TYPING_RATE and error_rate<MAX_ERROR_RATE:
         return True

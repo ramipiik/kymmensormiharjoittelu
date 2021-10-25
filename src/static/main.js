@@ -5,11 +5,14 @@ const input = document.getElementById('input');
 // const result = document.getElementById('result');
 const timeUsed = document.getElementById('timeUsed');
 const errors = document.getElementById('errors');
+const error_rate = document.getElementById('error_rate');
+const speed = document.getElementById('speed');
 const text_to_write=document.getElementById('textToWrite').innerHTML
 const errorAdjustedTime=document.getElementById('ErrorAdjustedTime')
 const pauseButton=document.getElementById('pauseButton')
 const resetButton=document.getElementById('resetButton')
 const insructions=document.getElementById('instructions')
+const scoreBoard=document.getElementById('scoreBoard')
 const history=document.getElementById('history')
 var test = document.getElementById('test')
 var resultBox=document.getElementById('resultBox')
@@ -61,22 +64,26 @@ function toggleInstructions() {
   } else {
     instructions.style.display = 'none'
     document.getElementById('toggleInstructionsButton').innerHTML='Show'
-  }
-  document.getElementById("exampleModal").modal()
-  
+  } 
+}
+
+function toggleScoreBoard() {
+  if (scoreBoard.style.display == 'none') {
+    scoreBoard.style.display = 'block'
+    document.getElementById('toggleScoreBoardButton').innerHTML='Hide'
+  } else {
+    scoreBoard.style.display = 'none'
+    document.getElementById('toggleScoreBoardButton').innerHTML='Show'
+  }  
 }
 
 function secondsToTime(seconds) {
-  console.log("input", seconds)
   seconds=parseInt(seconds)
   minutes=0
   hours=0
   if (seconds>=60) {
-    console.log("seconds", seconds)
     minutes=Math.floor(seconds/60)
-    console.log("minutes", minutes)
     seconds-=minutes*60
-    console.log("seconds", seconds)
     if (minutes>=60) {
       hours=Math.floor(minutes/60)
       minutes-=hours*60
@@ -99,15 +106,8 @@ function secondsToTime(seconds) {
   //   seconds=59
   // }
   var result = hours + ':' + minutes + ':' + seconds;
-  console.log(result)
   return result
 
-}
-
-function showModal() {
-  const modal=document.getElementById('myModal')
-  console.log("pressed")
-  modal.style.display='block'
 }
 
 function timerCycle() {
@@ -206,8 +206,7 @@ function editDistance(s1, s2) {
 
 
 function postRequest(data, URL) {
-  console.log("post method called")
-
+  
   fetch(URL, {
     method: "POST",
     headers: {
@@ -233,7 +232,6 @@ function submit(){
   if (totalSeconds==0) {
     return
   }
-  console.log("total seconds", totalSeconds)
   timeUsed.innerHTML=secondsToTime(totalSeconds)
   var textInput=input.value
   // pauseButton.style.display='none'
@@ -241,7 +239,6 @@ function submit(){
   var penalty;
   [err, penalty]=(similarity(text_to_write, textInput));
   err=parseInt(err)
-  console.log("errors", err)
   var adjustedSeconds=parseInt(totalSeconds/penalty);
   if (adjustedSeconds>359999) {
     adjustedSeconds=359999
@@ -249,15 +246,26 @@ function submit(){
   ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
   errors.innerHTML=err;
   
+  console.log("length", text_to_write.length)
+  console.log("totalseconds", totalSeconds)
 
-  var today = new Date();
-  var d = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  var t = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  date.innerHTML=d
-  time.innerHTML=t
+  a=Math.round(text_to_write.length/totalSeconds*60,0)
+  b=err/text_to_write.length*100
+  b=b.toFixed(1)
+
+  speed.innerHTML=a
+  error_rate.innerHTML=b
+  
+
+  // var today = new Date();
+  // var d = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  // var t = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  // date.innerHTML=d
+  // time.innerHTML=t
 
   
   resultBox.style.display="block";
+  document.getElementById('id_truebtn').style.display="block"
 
   document.getElementById('id_truebtn').onclick = function(){
       var exercise_id=document.getElementById('exerciseId').innerHTML
@@ -274,10 +282,10 @@ function submit(){
 
       
   };
-  document.getElementById('id_falsebtn').onclick = function(){
-        alert('false');
-      return false;
-  };
+  // document.getElementById('id_falsebtn').onclick = function(){
+  //       alert('false');
+  //     return false;
+  // };
 }
 
 
