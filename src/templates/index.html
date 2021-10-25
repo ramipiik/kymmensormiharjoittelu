@@ -1,37 +1,58 @@
-{% if not session.user_id %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>10-sormijärjestelmä</title>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        {% if not session.user_id %}
+            <a href="/login">Kirjaudu sisään:</a>
+        {% else %}
 
-<a href="/login">Kirjaudu sisään:</a>
 
-{% else %}
-<span id="total_tried_helper" style="display: none;">{{total_tried}}</span>
-<p>Olet kirjautunut sisään tunnuksella: {{ session.username }}. <a href="/logout">Kirjaudu ulos</a> </p>
-<p><a href="/new">Luo harjoitus</a></p>
+            <span id="total_tried_helper" style="display: none;">{{total_tried}}</span>
+            <span id="total_passed_helper" style="display: none;">{{total_passed}}</span>
+            <p>Olet kirjautunut sisään tunnuksella: {{ session.username }}. <a href="/logout">Kirjaudu ulos</a> </p>
+            <p><a href="/new">Luo harjoitus</a></p>
 
-<p>Filter exercises by level:</p>
-{% for level in levels %}
-    <input type="radio" name="chosen_level" value={{level}} onclick="filter({{level}}, {{tried}})"> {{level}}
-{% endfor %}
-<input type="radio" name="chosen_level" value="All" onclick="filter('all')"> All<br><br>
-Number of exercises: <span id="totalExercises">{{total}}</span><br>
-Exercises tried: <span id="tried">{{total_tried}}</span><br>
-Exercises passed: <span id="passed">x</span><br>
-<h2>Harjoitukset:</h2>
-<hr>
-    {% for exercise in exercises %}
-    <div name="item">
-        <i>Nimi:</i> <a href="/exercises/{{ exercise[0] }}">{{ exercise[1] }}</a>
-        <p>
-        <i id="taso">Taso:</i> <span id="level">{{ exercise["level"] }}</span>
-        <p>
-        <i>Kuvaus:</i> {{ exercise["description"] }}
-        <hr>
+            <p>Filter exercises by level:</p>
+            {% for level in levels %}
+                <input type="radio" name="chosen_level" value={{level}} onclick="filter({{level}}, {{tried}}, {{passed_by_level}})"> {{level}}
+            {% endfor %}
+            <input type="radio" name="chosen_level" value="All" onclick="filter('all')"> All<br><br>
+            Number of exercises: <span id="totalExercises">{{total}}</span><br>
+            Exercises tried: <span id="tried">{{total_tried}}</span><br>
+            Exercises passed: <span id="passed">{{total_passed}}</span><br>
+            <h2>Harjoitukset:</h2>
+            <hr>
+                {% for exercise in exercises %}
+                    <!-- <div class="row" >           -->
+                        <div name="item">
+                            <!-- <div class="col-4">   -->
+                                <div>Nimi: <a href="/exercises/{{ exercise[0] }}">{{ exercise[1] }}</a></div>
+                                <div>Taso: <span id="level">{{ exercise[3] }}</span></div>
+                                <div>Kuvaus: {{ exercise[2] }}</div>
+                            <!-- </div> -->
+                            <!-- <div class="col-4"> -->
+                                {% if exercise[4] %}
+                                    <div style="margin-bottom: -50px">
+                                        <img src= "{{ url_for('static',filename='images/trophy1.jpeg') }}" style="width: 50px; position:relative; left: 250px; bottom: 65px">
+                                    </div>
+                                {% endif %}
+                            <!-- </div> -->
+                            <hr>
+                        </div>
+                    <!-- </div> -->
+                    
+                {% endfor %}
+        {% endif %}
     </div>
-    {% endfor %}
-
-{% endif %}
-
+</body>
 <script>
-    function filter(level, tried) {
+    function filter(level, tried, passed) {
         elements = document.getElementsByName('item');
         // Loop through all list items, and hide those who don't match the search query
         count=0
@@ -50,11 +71,24 @@ Exercises passed: <span id="passed">x</span><br>
         document.getElementById("totalExercises").innerHTML=count
 
         tried_on_this_level=document.getElementById("total_tried_helper").innerHTML
-        console.log("tried_on_this_level", tried_on_this_level)
+        passed_on_this_level=document.getElementById("total_passed_helper").innerHTML
+        // console.log("tried_on_this_level", tried_on_this_level)
+
         if (level != 'all'){
-            tried_on_this_level=tried[level]
+            if (tried[level]) {
+                tried_on_this_level=tried[level]
+            } else {
+                tried_on_this_level=0
+            }
+            if (passed[level]) {
+                passed_on_this_level=passed[level]
+            } else {
+                passed_on_this_level=0
+            }
+            // passed_on_this_level=passed[level]
         }
         document.getElementById("tried").innerHTML=tried_on_this_level
+        document.getElementById("passed").innerHTML=passed_on_this_level
 
     }
 </script>

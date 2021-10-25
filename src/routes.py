@@ -9,10 +9,11 @@ def index():
     exercises_list = exercises.get_list()
     total=len(exercises_list)
     levels=exercises.get_levels()
-    # passed=exercises.get_passed()
     tried=exercises.get_tried()
-    # print(levels)
-    return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels, total=total, tried=tried[0], total_tried=tried[1])
+    passed=exercises.get_passed()
+    total_passed=len(passed)
+    passed_by_level=exercises.get_passed_by_level()
+    return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels, total=total, tried=tried[0], total_tried=tried[1], passed=passed, total_passed=total_passed, passed_by_level=passed_by_level)
 
 @app.route("/new")
 def new():

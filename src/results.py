@@ -1,13 +1,28 @@
+import typing
 from db import db
 # from routes import exercise
 import users
+
+MAX_ERROR_RATE = 0.05
+MIN_TYPING_RATE = 120 #letters per minute 
 
 def add_result(exercise_id, used_time, adjusted_time, errors):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO results (user_id, exercise_id, used_time, adjusted_time, errors, sent_at) VALUES (:user_id, :exercise_id, :used_time, :adjusted_time, :errors, NOW()) RETURNING id"
-    db.session.execute(sql, {"user_id":user_id, "exercise_id":exercise_id, "used_time":used_time, "adjusted_time": adjusted_time, "errors": errors})
+    
+
+    sql= "SELECT text_to_write FROM exercises WHERE id=:exercise_id"
+    text_length=len(db.session.execute(sql, {"exercise_id":exercise_id}).fetchone()[0])
+    typing_speed=text_length*60/used_time
+    error_rate=errors/text_length
+
+    approved=False
+    if typing_speed>=MIN_TYPING_RATE and error_rate<=MAX_ERROR_RATE:
+        approved=True
+
+    sql = "INSERT INTO results (user_id, exercise_id, used_time, adjusted_time, errors, approved, sent_at) VALUES (:user_id, :exercise_id, :used_time, :adjusted_time, :errors, :approved, NOW()) RETURNING id"
+    db.session.execute(sql, {"user_id":user_id, "exercise_id":exercise_id, "used_time":used_time, "adjusted_time": adjusted_time, "errors": errors, "approved": approved})
     db.session.commit()
     return True
 
@@ -107,8 +122,7 @@ def is_approved(exercise):
     time=int(newData["used_time"])
     errors=int(newData["errors"])
     
-    MAX_ERROR_RATE = 0.05
-    MIN_TYPING_RATE = 120 #letters per minute  
+     
 
     typing_rate=text_length*60/time
     error_rate=errors/text_length

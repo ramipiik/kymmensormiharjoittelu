@@ -65,6 +65,9 @@ function toggleInstructions() {
     instructions.style.display = 'none'
     document.getElementById('toggleInstructionsButton').innerHTML='Show'
   } 
+  input.disabled = false;
+  input.style.backgroundColor = "white";
+  input.focus();
 }
 
 function toggleScoreBoard() {
@@ -74,7 +77,10 @@ function toggleScoreBoard() {
   } else {
     scoreBoard.style.display = 'none'
     document.getElementById('toggleScoreBoardButton').innerHTML='Show'
-  }  
+  } 
+  input.disabled = false;
+  input.style.backgroundColor = "white";
+  input.focus();
 }
 
 function secondsToTime(seconds) {

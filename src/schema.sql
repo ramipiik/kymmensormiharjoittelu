@@ -26,6 +26,7 @@ CREATE TABLE results (
     used_time INTEGER,
     adjusted_time INTEGER,
     errors INTEGER,
-    sent_at TIMESTAMP
+    sent_at TIMESTAMP,
+    approved BOOLEAN
 );
 

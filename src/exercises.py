@@ -3,8 +3,22 @@ import users
 
 def get_list():
     sql = "SELECT id, name, description, level FROM exercises ORDER BY level"
-    result = db.session.execute(sql)
-    return result.fetchall()
+    data = db.session.execute(sql).fetchall()
+
+    passed = get_passed()
+    new_data=[]
+    for i, item in enumerate(data):
+        new_data.append([])
+        for part in item:
+            new_data[i].append(part)
+        
+        if item[0] in passed:
+            new_data[i].append(True)
+        else:
+            new_data[i].append(False)
+
+    print("new_data", new_data)
+    return new_data
 
 def get_levels():
     sql = "SELECT DISTINCT level FROM exercises ORDER BY level"
@@ -30,23 +44,6 @@ def get_exercise(id):
 
 def get_tried():
     user_id = users.user_id()
-
-    #TEE TÄMÄ ENSIN
-    # sql = "SELECT DISTINCT exercise_id FROM results WHERE user_id=:user_id"
-    # result = db.session.execute(sql, {"user_id": user_id}).fetchall()
-    # print("exercises", result)
-
-    #HAE sitten näiden levelit. ja laske leveleiden määrä
-    # sql = "SELECT DISTINCT level FROM exercises" #toimii
-    # sql = "SELECT COUNT (DISTINCT level) FROM exercises" #toimii
-    # result = db.session.execute(sql).fetchone()
-
-
-    # AO TOIMII!
-    # SELECT DISTINCT results.exercise_id, exercises.level FROM results LEFT JOIN  exercises ON results.exercise_id=exercises.id WHERE results.user_id=2;
-    # print("levels",result)
-
-    print("-------------------")
     sql="SELECT COUNT(DISTINCT results.exercise_id), exercises.level FROM results LEFT JOIN  exercises ON results.exercise_id=exercises.id WHERE results.user_id=:user_id GROUP BY exercises.level;"
     result = db.session.execute(sql, {"user_id": user_id}).fetchall()
     tried={}
@@ -54,13 +51,26 @@ def get_tried():
     for item in result:
         tried[item[1]]=item[0]
         total_tried+=item[0]
-    print("tried", tried)
 
+    print("tried", tried)
     return (tried, total_tried)
 
-
-    # print(len(result))
-    # return len(result)
-
 def get_passed():
-    return None
+    user_id = users.user_id()
+    sql="SELECT DISTINCT r.exercise_id FROM results r WHERE r.user_id=:user_id AND r.approved=True";
+    data = db.session.execute(sql, {"user_id": user_id}).fetchall()
+    result=[]
+    for item in data:
+        result.append(item[0])
+    return result
+
+def get_passed_by_level():
+    user_id = users.user_id()
+    sql="SELECT COUNT(DISTINCT results.exercise_id), exercises.level FROM results LEFT JOIN  exercises ON results.exercise_id=exercises.id WHERE results.user_id=:user_id and results.approved=True GROUP BY exercises.level;"
+    result = db.session.execute(sql, {"user_id": user_id}).fetchall()
+    passed={}
+    for item in result:
+        passed[item[1]]=item[0]
+
+    # print("passed2", passed)
+    return (passed)
