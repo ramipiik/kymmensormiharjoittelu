@@ -15,9 +15,12 @@ def index():
     passed_by_level=exercises.get_passed_by_level()
     return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels, total=total, tried=tried[0], total_tried=tried[1], passed=passed, total_passed=total_passed, passed_by_level=passed_by_level)
 
-@app.route("/new")
-def new():
-    return render_template("new_exercise.html")
+@app.route("/admin")
+def admin():
+    if users.is_admin():
+        return render_template("admin.html")
+    else:
+        return render_template("error.html", message="Access denied")
 
 
 @app.route("/exercises/<int:id>")
