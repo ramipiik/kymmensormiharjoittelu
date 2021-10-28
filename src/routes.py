@@ -17,11 +17,30 @@ def index():
 
 @app.route("/admin")
 def admin():
+    exercises_list = exercises.get_list()
+    # exercises_list=json.dumps(exercises_list)
     if users.is_admin():
-        return render_template("admin.html")
+        return render_template("admin.html", exercises=exercises_list)
     else:
         return render_template("error.html", message="Access denied")
 
+# @app.route("/delete/<int:id>")
+# def delete(id):
+#     if users.is_admin():
+#         exercises.delete(id)
+#         return True
+#     else:
+#         return render_template("error.html", message="Access denied")
+
+@app.route("/delete/", methods=["POST"])
+def delete():
+    data = request.get_json()
+    id = data["id"]
+    if users.is_admin():
+        exercises.delete(id)
+        return True
+    else:
+        return render_template("error.html", message="Access denied")
 
 @app.route("/exercises/<int:id>")
 def exercise(id):
@@ -56,7 +75,7 @@ def create_exercise():
     text_to_write = request.form["text_to_write"]
 
     if exercises.create(name, level, description, text_to_write):
-        return redirect("/")
+        return redirect("/admin")
     else:
         return render_template("error.html", message="Harjoituksen luonti ei onnistunut")
 

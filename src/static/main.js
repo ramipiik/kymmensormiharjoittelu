@@ -36,6 +36,15 @@ function startTimer() {
   // pauseButton.style.display=""
 }
 
+function delete_exercise(id) {
+  confirm("Are you sure that you want to delete exercise "+id+"?");
+  data = {
+    id: id
+  }
+  URL= '/delete/'
+  postRequest(data, URL)
+}
+
 function toggleHistory() {
   if (history.style.display == 'none') {
     history.style.display = 'block'

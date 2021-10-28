@@ -37,6 +37,13 @@ def create(name, level, description, text_to_write):
     db.session.commit()
     return True
 
+def delete(id):
+    if users.is_admin(): 
+        sql = "DELETE FROM exercises WHERE id=:id"
+        db.session.execute(sql, {"id":id})
+        db.session.commit()
+        return True
+
 def get_exercise(id):
     sql = "SELECT description, text_to_write, name FROM exercises WHERE id=:id"
     result = db.session.execute(sql, {"id": id}).fetchone()

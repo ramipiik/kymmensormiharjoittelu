@@ -34,17 +34,33 @@
                                 <textarea type="text_to_write" name="text_to_write" id="text_to_write" class="form-control" rows="10"></textarea>
                             </div>
                         </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
                 <div class="col-6">
-                    <h2 style="margin-top: 40px;">Remove an exercise</h2>
-                    <p>Hae tähän routessa lista harjoituksista. renderöi bootstrapin taulukkona.. Harjoituksen nimi on hyperlinkki.
-                        Viereen nappi josta voi poistaa.
-                    </p>
+                    <h2 style="margin-top: 40px;">Edit exercises</h2>
+                    <hr>
+                        {% for exercise in exercises %}
+                        <div class="row" name="item">        
+                                <!-- <div name="item" > -->
+                                    <div class="col-9">
+                                        <div>Name: <a href="/exercises/{{ exercise[0] }}">{{ exercise[1] }}</a></div>
+                                        <div>Level: <span id="level">{{ exercise[3] }}</span></div>
+                                        <div>Description: {{ exercise[2] }}</div>
+                                        <div>Id: {{ exercise[0] }}</a></div>
+                                    </div>
+                                    <div class="col-3">
+                                        <button type="button" class="btn btn-primary" style="margin-bottom: 5px">Edit</button>
+                                        <button type="button" class="btn btn-danger" style="margin-top: 5px" onclick="delete_exercise({{exercise[0]}})">Delete</button>
+                                    </div>
+                                <!-- </div> -->
+                            </div>
+                            <hr>
+                        {% endfor %}
                 </div>
             </div>
         </div>
     </body>
-
+    <script src="{{ url_for('static',filename='main.js') }}"></script>
 
 {% endif %}
