@@ -24,15 +24,16 @@ def admin():
     else:
         return render_template("error.html", message="Access denied")
 
-# @app.route("/delete/<int:id>")
-# def delete(id):
-#     if users.is_admin():
-#         exercises.delete(id)
-#         return True
-#     else:
-#         return render_template("error.html", message="Access denied")
 
-@app.route("/delete/", methods=["POST"])
+@app.route("/edit/<int:id>")
+def edit(id):
+    if users.is_admin():
+        exercise=exercises.get_exercise(id)
+        return render_template("edit.html", exercise=exercise)
+    else:
+        return render_template("error.html", message="Access denied")
+
+@app.route("/delete", methods=["POST"])
 def delete():
     data = request.get_json()
     id = data["id"]
@@ -45,9 +46,9 @@ def delete():
 @app.route("/exercises/<int:id>")
 def exercise(id):
     exercise_data=exercises.get_exercise(id)
-    description=exercise_data[0]
-    text_to_write=exercise_data[1]
-    name=exercise_data[2]
+    description=exercise_data["description"]
+    text_to_write=exercise_data["text_to_write"]
+    name=exercise_data["name"]
     text_length=len(text_to_write)
     # print("length:", text_length)
 
@@ -78,6 +79,20 @@ def create_exercise():
         return redirect("/admin")
     else:
         return render_template("error.html", message="Harjoituksen luonti ei onnistunut")
+
+@app.route("/edit_exercise", methods=["POST"])
+def edit_exercise():
+    id = request.form["id"]
+    name = request.form["name"]
+    description = request.form["description"]
+    level = request.form["level"]
+    text_to_write = request.form["text_to_write"]
+    
+
+    if exercises.edit(id, name, level, description, text_to_write):
+        return redirect("/admin")
+    else:
+        return render_template("error.html", message="Harjoituksen editointi ei onnistunut")
 
 @app.route("/new_result", methods=["POST"])
 def add_result():

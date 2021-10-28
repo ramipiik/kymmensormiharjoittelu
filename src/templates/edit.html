@@ -1,0 +1,50 @@
+{% if session.admin %}
+
+<!<DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <title>10-sormijärjestelmä</title>
+        <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <a href="/admin">Back</a><br>
+            <a href="/">To main page</a><br>
+            <a href="/logout" style="color: red;">Logout</a>
+            <div class="row">
+                <div class="col-6">
+                    <h2 style="margin-top: 40px;">Edit exercise</h2>
+                    <form action="/edit_exercise" method="post">
+                        <div class="form-group" >
+                            <div style="width: 90%; margin-top: 10px;">
+                                <label for="name">Name</label><br>
+                                <input type="name" name="name" id="name" class="form-control" value="{{exercise["name"]}}" rows="1"></input>
+                            </div>
+                            <div style="width: 75px; margin-top: 10px;"> 
+                                <label for="level">Level</label><br>
+                                <input type="level" name="level" id="level" class="form-control" value="{{exercise["level"]}}" rows="1"></input>
+                            </div>
+                            <div style="width: 90%; margin-top: 10px;"> 
+                                <label for="description">Description</label><br>
+                                <textarea type="description" name="description" id="description" class="form-control" rows="3" >{{exercise["description"]}}</textarea>
+                            </div>
+                            <div style="width: 90%; margin-top: 10px;"> 
+                                <label for="text_to_write">Text to write</label><br>
+                                <textarea type="text_to_write" name="text_to_write" id="text_to_write" class="form-control" rows="10">{{exercise["text_to_write"]}}</textarea>
+                            </div>
+                            <div style="display: none;"> 
+                                <input name="id" id="id" class="form-control" value="{{exercise["id"]}}"></input>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure that you want to edit the exercise? That might make earlier results outdated.')">Submit</button>
+                        <button type="submit" class="btn btn-danger" onclick="goBack()" >Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="{{ url_for('static',filename='main.js') }}"></script>
+
+{% endif %}

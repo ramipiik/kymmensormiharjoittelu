@@ -45,9 +45,19 @@ def delete(id):
         return True
 
 def get_exercise(id):
-    sql = "SELECT description, text_to_write, name FROM exercises WHERE id=:id"
+    sql = "SELECT description, level, text_to_write, name, id FROM exercises WHERE id=:id"
     result = db.session.execute(sql, {"id": id}).fetchone()
     return result
+
+def edit(id, name, level, description, text_to_write):
+    print("-----------------")
+    print("id", id, "name", name, "level", level, "desriptin", description, "text_to_write", text_to_write)
+    print("-----------------")
+    level=int(level)
+    sql = "UPDATE exercises SET name=:name, level=:level, description=:description, text_to_write=:text_to_write WHERE id=:id"
+    db.session.execute(sql, {"id": id, "description": description, "text_to_write": text_to_write, "level": level, "name": name})
+    db.session.commit()
+    return True
 
 def get_tried():
     user_id = users.user_id()

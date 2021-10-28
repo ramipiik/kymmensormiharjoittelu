@@ -7,7 +7,6 @@ const timeUsed = document.getElementById('timeUsed');
 const errors = document.getElementById('errors');
 const error_rate = document.getElementById('error_rate');
 const speed = document.getElementById('speed');
-const text_to_write=document.getElementById('textToWrite').innerHTML
 const errorAdjustedTime=document.getElementById('ErrorAdjustedTime')
 const pauseButton=document.getElementById('pauseButton')
 const resetButton=document.getElementById('resetButton')
@@ -36,12 +35,20 @@ function startTimer() {
   // pauseButton.style.display=""
 }
 
+function goBack() {
+  window.history.back();
+}
+
+function refreshPage() {
+  window.reload();
+}
+
 function delete_exercise(id) {
   confirm("Are you sure that you want to delete exercise "+id+"?");
   data = {
     id: id
   }
-  URL= '/delete/'
+  URL= '/delete'
   postRequest(data, URL)
 }
 
@@ -252,6 +259,7 @@ function submit(){
   // pauseButton.style.display='none'
   var err;
   var penalty;
+  const text_to_write=document.getElementById('textToWrite').innerHTML
   [err, penalty]=(similarity(text_to_write, textInput));
   err=parseInt(err)
   var adjustedSeconds=parseInt(totalSeconds/penalty);

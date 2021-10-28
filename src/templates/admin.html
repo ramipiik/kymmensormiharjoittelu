@@ -19,11 +19,11 @@
                         <div class="form-group" >
                             <div style="width: 90%; margin-top: 10px;">
                                 <label for="name">Name</label><br>
-                                <input type="name" name="name" id="name" class="form-control" rows="1"></textarea>
+                                <input type="name" name="name" id="name" class="form-control" rows="1"></input>
                             </div>
                             <div style="width: 75px; margin-top: 10px;"> 
                                 <label for="level">Level</label><br>
-                                <input type="level" name="level" id="level" class="form-control" rows="1"></textarea>
+                                <input type="level" name="level" id="level" class="form-control" rows="1"></input>
                             </div>
                             <div style="width: 90%; margin-top: 10px;"> 
                                 <label for="description">Description</label><br>
@@ -36,6 +36,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
+                    <button class="btn btn-danger" onclick="window.location.reload()" >Cancel</button>
+                    
                 </div>
                 <div class="col-6">
                     <h2 style="margin-top: 40px;">Edit exercises</h2>
@@ -50,7 +52,7 @@
                                         <div>Id: {{ exercise[0] }}</a></div>
                                     </div>
                                     <div class="col-3">
-                                        <button type="button" class="btn btn-primary" style="margin-bottom: 5px">Edit</button>
+                                        <button type="button" class="btn btn-primary" style="margin-bottom: 5px" onclick="window.location.href='/edit/'+{{exercise[0]}}">Edit</button>
                                         <button type="button" class="btn btn-danger" style="margin-top: 5px" onclick="delete_exercise({{exercise[0]}})">Delete</button>
                                     </div>
                                 <!-- </div> -->
