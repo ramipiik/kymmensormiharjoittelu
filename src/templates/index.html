@@ -6,7 +6,7 @@
     <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
-<body>
+<body class="body">
     <div class="container">
         {% if not session.user_id %}
             <a href="/login">Kirjaudu sisään:</a>

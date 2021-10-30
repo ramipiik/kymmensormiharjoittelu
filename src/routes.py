@@ -9,8 +9,8 @@ def index():
     exercises_list = exercises.get_list()
     total=len(exercises_list)
     levels=exercises.get_levels()
-    tried=exercises.get_tried()
-    passed=exercises.get_passed()
+    tried=exercises.get_tried_by_user()
+    passed=exercises.get_passed_by_user()
     total_passed=len(passed)
     passed_by_level=exercises.get_passed_by_level()
     return render_template("index.html", count=len(messages_list), messages=messages_list, exercises=exercises_list, levels=levels, total=total, tried=tried[0], total_tried=tried[1], passed=passed, total_passed=total_passed, passed_by_level=passed_by_level)
@@ -18,9 +18,9 @@ def index():
 @app.route("/admin")
 def admin():
     exercises_list = exercises.get_list()
-    # exercises_list=json.dumps(exercises_list)
+    stats=exercises.get_stats()
     if users.is_admin():
-        return render_template("admin.html", exercises=exercises_list)
+        return render_template("admin.html", exercises=exercises_list, stats=stats)
     else:
         return render_template("error.html", message="Access denied")
 
@@ -54,7 +54,7 @@ def exercise(id):
 
     personal_top10=results.get_personal_top10(str(id), text_length)
     latest_results=results.get_latest_results_by_exercise(str(id), text_length)
-    top10=results.get_top10(str(id), text_length)
+    top10=results.get_top10_by_exercise(str(id), text_length)
     
     approved=results.is_approved(str(id))
     return render_template("/exercise.html", personal_top10=personal_top10, top10=top10, latest_results=latest_results, id=id, description=description, text_to_write=text_to_write, name=name, approved=approved)
@@ -87,7 +87,7 @@ def edit_exercise():
     description = request.form["description"]
     level = request.form["level"]
     text_to_write = request.form["text_to_write"]
-    
+
 
     if exercises.edit(id, name, level, description, text_to_write):
         return redirect("/admin")

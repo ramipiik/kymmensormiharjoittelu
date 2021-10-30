@@ -2,6 +2,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
     password TEXT,
+    created TIMESTAMP,
     is_admin BOOLEAN
 );
 

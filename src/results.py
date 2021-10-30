@@ -67,7 +67,7 @@ def get_personal_top10(exercise, text_length):
         newData[i]["error_rate"]=str(round(item["errors"]/text_length*100, 1))+' %'
     return newData
 
-def get_top10(exercise, text_length):
+def get_top10_by_exercise(exercise, text_length):
     # sql = "SELECT adjusted_time, sent_at FROM results WHERE exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 10"
     sql= "SELECT users.username, results.adjusted_time, results.used_time, results.sent_at, results.errors FROM results LEFT JOIN users ON users.id=results.user_id WHERE exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 5"
     result = db.session.execute(sql, {"exercise_id": exercise})
@@ -82,6 +82,23 @@ def get_top10(exercise, text_length):
         newData[i]["used_time"]=item["used_time"]
         newData[i]["typing_speed"]=int(round(text_length*60/item["used_time"], 0))
         newData[i]["error_rate"]=str(round(item["errors"]/text_length*100, 1))+' %'
+    return newData
+
+def get_top10_positions():
+    # sql= "SELECT users.username, results.adjusted_time FROM users LEFT JOIN results ON users.id=results.user_id ORDER BY adjusted_time LIMIT 5"
+    # sql= "SELECT users.username, COUNT(results.id) FROM users LEFT JOIN results ON users.id=results.user_id GROUP BY users.username ORDER BY users.username"
+    
+    #TÄHÄN PITÄÄ VARMAAAN TEHDÄ ALIKYSELY....
+    sql= "SELECT users.username, COUNT(results.id) FROM users LEFT JOIN results ON users.id=results.user_id GROUP BY users.username ORDER BY users.username"
+    result = db.session.execute(sql,)
+    data=result.fetchall()
+    print("----------------")
+    print("data", data)
+    newData=[]
+    for i, item in enumerate (data):
+        newData.append({})
+        newData[i]["username"]=item["username"]
+        newData[i]["count"]=item["count"]
     return newData
 
 

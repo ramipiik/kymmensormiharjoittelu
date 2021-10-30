@@ -5,13 +5,12 @@ def get_list():
     sql = "SELECT id, name, description, level FROM exercises ORDER BY level"
     data = db.session.execute(sql).fetchall()
 
-    passed = get_passed()
+    passed = get_passed_by_user()
     new_data=[]
     for i, item in enumerate(data):
         new_data.append([])
         for part in item:
             new_data[i].append(part)
-        
         if item[0] in passed:
             new_data[i].append(True)
         else:
@@ -59,7 +58,7 @@ def edit(id, name, level, description, text_to_write):
     db.session.commit()
     return True
 
-def get_tried():
+def get_tried_by_user():
     user_id = users.user_id()
     sql="SELECT COUNT(DISTINCT results.exercise_id), exercises.level FROM results LEFT JOIN  exercises ON results.exercise_id=exercises.id WHERE results.user_id=:user_id GROUP BY exercises.level;"
     result = db.session.execute(sql, {"user_id": user_id}).fetchall()
@@ -69,17 +68,36 @@ def get_tried():
         tried[item[1]]=item[0]
         total_tried+=item[0]
 
-    print("tried", tried)
     return (tried, total_tried)
 
-def get_passed():
+def get_tried():
+    sql="SELECT u.username, COUNT(DISTINCT r.exercise_id) FROM users u LEFT JOIN results r ON u.id=r.user_id GROUP BY u.username";
+    data = db.session.execute(sql).fetchall()
+    return data
+
+def get_passed_by_user():
     user_id = users.user_id()
-    sql="SELECT DISTINCT r.exercise_id FROM results r WHERE r.user_id=:user_id AND r.approved=True";
+    sql="SELECT DISTINCT r.exercise_id FROM results r WHERE r.user_id=:user_id AND r.approved=True;"
     data = db.session.execute(sql, {"user_id": user_id}).fetchall()
+    
     result=[]
     for item in data:
         result.append(item[0])
     return result
+
+def get_stats():
+    sql="SELECT username, t.tried, p.passed, created from users left join (SELECT u.id, COUNT(DISTINCT r.exercise_id) as passed FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.id) as p on users.id=p.id LEFT JOIN (SELECT u.id, COUNT(DISTINCT r.exercise_id) AS tried FROM users u LEFT JOIN results r ON u.id=r.user_id GROUP BY u.id) AS t ON users.id=t.id ORDER BY created DESC"
+    data = db.session.execute(sql).fetchall()
+    print("+++++++++")
+    print(data)
+    return data
+
+def get_passed():
+    # sql="SELECT u.username, COUNT(DISTINCT r.exercise_id) FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.username";
+    sql="SELECT username, x.total, created from users left join (SELECT u.id, COUNT(DISTINCT r.exercise_id) as total FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.id) as x on users.id=x.id ORDER BY created DESC";
+    # sql="SELECT username, x.total, (SELECT 1), created from users left join (SELECT u.id, COUNT(DISTINCT r.exercise_id) as total FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.id) as x on users.id=x.id ORDER BY created DESC";
+    data = db.session.execute(sql).fetchall()
+    return data
 
 def get_passed_by_level():
     user_id = users.user_id()
@@ -88,6 +106,4 @@ def get_passed_by_level():
     passed={}
     for item in result:
         passed[item[1]]=item[0]
-
-    # print("passed2", passed)
     return (passed)

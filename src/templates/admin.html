@@ -8,13 +8,14 @@
         <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     </head>
-    <body>
+    <body class="body">
         <div class="container">
             <a href="/">To main page</a><br>
             <a href="/logout" style="color: red;">Logout</a>
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <h2 style="margin-top: 40px;">Create a new exercise</h2>
+                    <hr>
                     <form action="/new_exercise" method="post">
                         <div class="form-group" >
                             <div style="width: 90%; margin-top: 10px;">
@@ -39,8 +40,9 @@
                     <button class="btn btn-danger" onclick="window.location.reload()" >Cancel</button>
                     
                 </div>
-                <div class="col-6">
-                    <h2 style="margin-top: 40px;">Edit exercises</h2>
+                <div class="col-5" style="padding-right: 30px;">
+                    <h2 style="margin-top: 40px;
+                    ">Edit exercises</h2>
                     <hr>
                         {% for exercise in exercises %}
                         <div class="row" name="item">        
@@ -48,7 +50,7 @@
                                     <div class="col-9">
                                         <div>Name: <a href="/exercises/{{ exercise[0] }}">{{ exercise[1] }}</a></div>
                                         <div>Level: <span id="level">{{ exercise[3] }}</span></div>
-                                        <div>Description: {{ exercise[2] }}</div>
+                                        <div>Description: <span style="font-size: small;">{{ exercise[2] }}</span></div>
                                         <div>Id: {{ exercise[0] }}</a></div>
                                     </div>
                                     <div class="col-3">
@@ -59,6 +61,28 @@
                             </div>
                             <hr>
                         {% endfor %}
+                </div>
+                <div class="col-3">
+                    <h2 style="margin-top: 40px;">User stats</h2>
+                    <hr>
+                    <table class="table table-striped" style="margin-top: 10px; font-size: small;">
+                       
+                            <tr style="line-height: 75%;">
+                                <th>User</th>
+                                <th>User created</th>
+                                <th>Exercises tried</th>
+                                <th>Exercises passed</th>
+                            </tr>
+                        {% for result in stats %}
+                            <tr>
+                                <td>{{result[0]}}</td>      
+                                <td >{{result[3].strftime("%Y-%m-%d")}}</td>      
+                                <td>{{result[1]}}</td>
+                                <td>{{result[2]}}</td>  
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    
                 </div>
             </div>
         </div>
