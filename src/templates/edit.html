@@ -8,14 +8,31 @@
         <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     </head>
-    <body>
+    <body class="body">
         <div class="container">
-            <a href="/admin">Back</a><br>
+            <div class="row" style="margin-top: 10px">
+                <div class="col-10">        
+                    <a href="/admin">Back</a><br>
+                    <!-- <span style="padding-right: 40px;"><a href="/">Main page</a></span>
+                    {% if session.admin %}    
+                        <a href="/admin">Admin panel</a>
+                    {% endif %} -->
+                </div>                
+                <!-- <div class="col-2">        
+                    <p>User: {{ session.username }}<br>
+                </div> -->
+                <div class="col-2">        
+                    <a href="/logout" style="color: red;">Logout {{session.username}}</a>
+                </div>
+            </div>
+            <hr style="margin-top: 8px; margin-bottom: 0px;">
+            <!-- <a href="/admin">Back</a><br>
             <a href="/">To main page</a><br>
-            <a href="/logout" style="color: red;">Logout</a>
+            <a href="/logout" style="color: red;">Logout</a> -->
+            <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 10px;"> -->
             <div class="row">
                 <div class="col-6">
-                    <h2 style="margin-top: 40px;">Edit exercise</h2>
+                    <h2 style="margin-top: 20px;">Edit exercise</h2>
                     <form action="/edit_exercise" method="post">
                         <div class="form-group" >
                             <div style="width: 90%; margin-top: 10px;">
@@ -38,7 +55,7 @@
                                 <input name="id" id="id" class="form-control" value="{{exercise["id"]}}"></input>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure that you want to edit the exercise? That might make earlier results outdated.')">Submit</button>
+                        <button style="margin-right: 10px" type="submit" class="btn btn-primary" onclick="return confirm('Are you sure that you want to edit the exercise? That might make earlier results outdated.')">Submit</button>
                         <button type="submit" class="btn btn-danger" onclick="goBack()" >Cancel</button>
                     </form>
                 </div>

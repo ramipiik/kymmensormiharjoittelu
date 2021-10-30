@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-        <title>10-sormijärjestelmä</title>
+        <title>Ten-finger system</title>
         <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     </head>
@@ -10,35 +10,49 @@
     <body class="body">
         <div class="container">
             <div class="row" style="margin-top: 10px">
+                <div class="col-10">        
+                    <span style="padding-right: 40px;"><a href="/">Main page</a></span>
+                    {% if session.admin %}    
+                        <a href="/admin">Admin panel</a>
+                    {% endif %}
+                </div>                
+                <!-- <div class="col-2">        
+                    <p>User: {{ session.username }}<br>
+                </div> -->
+                <div class="col-2">        
+                    <a href="/logout" style="color: red;">Logout {{session.username}}</a>
+                </div>
+            </div>
+            <hr style="margin-top: 8px; margin-bottom: 8px;">
+            <div class="row" style="margin-top: 10px; background-color: white; padding: 10px;">
                 {% if approved %}
                 <div class="col-1">
                     <img src= "{{ url_for('static',filename='images/trophy1.jpeg') }}" style="width: 55px; vertical-align: bottom;">
-                    <!-- <div style="margin-top: 15px;">Läpi on!</div> -->
                 </div>
                 {% endif %}
                 <div class="col-7">
-                    <h1 style="text-align: left; padding: 5px">{{name}}</h1>
-                </div>
-                <div class="col-4" style="margin-top: 5px;">
-                    <a href="/">To main page</a><br>
-                    <a href="/logout" style="color: red;">Logout</a>
-                </div>
+                    <h1 style="text-align: left">{{name}}</h1>
+                    <div style="margin-top: -10px; font-size: small; margin-bottom: 10px;">
+                        {% if approved %}
+                            <span style="color: green;">Exercise status: Approved</span>
+                        {% else %}
+                            <span style="color: red;">Exercise status: Not approved</span>
+                        {% endif %}
+                    </div>
+                </div>    
             </div>
-            <hr style="height: 2px; margin-top: 0px; background-color: #bec1c4; border: 0 none;">
-            <div style="margin-top: -10px; font-size: small;">
-                {% if approved %}
-                    <span style="color: green;">Exercise status: Approved</span>
-                {% else %}
-                    <span style="color: red;">Exercise status: Not approved</span>
-                {% endif %}
-            </div>
+            <!-- <hr style="margin-top: -10px; margin-bottom: 2px;"> -->
+            <!-- <hr style="height: 2px; margin-top: 0px; background-color: #bec1c4; border: 0 none;"> -->
+            <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 10px;"> -->
+
+            
             
             <div class="row">
                 <div class="col-7">
                     <h3>Theme</h3>
                     <p style="margin-bottom: 0px;">{{description}}</p>
                     <!-- <h3>Instructions <button style="margin-left: 20px;" type="button" class="btn btn-link" onclick="toggleInstructions()" id="toggleInstructionsButton">Show</button></h3> -->
-                    <h3>Instructions <a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleInstructions()" href="javascript:void(0);" id="toggleInstructionsButton">Show</a></h3>
+                    <h3 style="margin-top:20px">Instructions <a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleInstructions()" href="javascript:void(0);" id="toggleInstructionsButton">Show</a></h3>
                     <ul id="instructions" style="display: none; padding-right: 50px;" >
                         <li>Times starts automatically when you start typing</li>
                         <li>Press tab when you are ready</li>
@@ -46,11 +60,11 @@
                         <li>Passing the exercise requires less than 5% errors and a typing speed of more than 120 characters per minute
                         </li>
                     </ul>
-                    <h3 >Text to write</h3>
+                    <h3 style="margin-top: 20px">Text to write</h3>
                     <div class="assignment">
                         <p id="textToWrite">{{text_to_write}}</p>
                     </div>
-                    <h3 >Your text</h3>
+                    <h3 style="margin-top:20px">Your text</h3>
                     <div>
                         <textarea id="input" class="assignment" onkeypress="startTimer()" onblur="submit()" onpaste=" return false" ></textarea>
                     </div>
@@ -96,12 +110,12 @@
                 </div>
                 
                 <div class="col-5">
-                    <h3>Score Board<a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleScoreBoard()" href="javascript:void(0);" id="toggleScoreBoardButton">Hide</a></h3>
-                    <hr>
+                    <!-- <h3>Score Board<a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleScoreBoard()" href="javascript:void(0);" id="toggleScoreBoardButton">Hide</a></h3> -->
+                    <!-- <hr> -->
                     <div id="scoreBoard"> 
                         {% if top10 %}
-                        <h4 style="margin-top: 30px;">Hall of Fame</h4>
-                            <table class="table table-striped" style="margin-top: 10px; ">
+                        <h3>Hall of Fame</h3>
+                            <table class="table table-striped" style="margin-top: 15px; ">
                                 <div >
                                     <tr style="line-height: 75%;">
                                         <th>Player</th>
@@ -123,8 +137,8 @@
                             </table>
                         {% endif %}
                         {% if personal_top10 %}
-                        <h4 style="margin-top: 40px;">Personal Best</h4>
-                            <table class="table table-striped" style="margin-top: 10px; ">
+                        <h3 style="margin-top: 40px;">Personal Best</h3>
+                            <table class="table table-striped" style="margin-top: 15px; ">
                                 <div >
                                     <tr style="line-height: 75%;">
                                         <th>Player</th>
@@ -147,8 +161,8 @@
                         {% endif %}
                         {% if latest_results %}    
                             <!-- <h3>Personal Latest<button style="margin-left: 20px;" type="button" class="btn btn-info" onclick="toggleHistory()" id="toggleHistoryButton">Show</button></h3> -->
-                            <h4 style="margin-top: 40px;">Personal Latest</h4>
-                            <table class="table table-striped" id="history" style="margin-top: 10px; ">
+                            <h3 style="margin-top: 40px;">Personal Latest</h3>
+                            <table class="table table-striped" id="history" style="margin-top: 15px; ">
                                 <div >
                                     <tr style="line-height: 75%;">
                                         <th>Player</th>

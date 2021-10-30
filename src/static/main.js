@@ -26,6 +26,7 @@ var stoptime = true;
 // var errorcount=0
 
 function startTimer() {
+  console.log("start timer")
   if (stoptime == true) {
         stoptime = false;
         timerCycle();
@@ -59,6 +60,17 @@ function toggleHistory() {
   } else {
     history.style.display = 'none'
     document.getElementById('toggleHistoryButton').innerHTML='Show'
+  }
+}
+
+function toggleSignup() {
+  signup=document.getElementById("signup")
+  if (signup.style.display == 'none') {
+    signup.style.display = 'block'
+    document.getElementById('toggleSignupButton').innerHTML='Hide'
+  } else {
+    signup.style.display = 'none'
+    document.getElementById('toggleSignupButton').innerHTML='Show'
   }
 }
 // function stopTimer() {
@@ -243,7 +255,6 @@ function postRequest(data, URL) {
 
 
 function submit(){
-    
   if (stoptime == false) {
     stoptime = true;
   }
@@ -256,11 +267,13 @@ function submit(){
   }
   timeUsed.innerHTML=secondsToTime(totalSeconds)
   var textInput=input.value
-  // pauseButton.style.display='none'
   var err;
   var penalty;
   const text_to_write=document.getElementById('textToWrite').innerHTML
-  [err, penalty]=(similarity(text_to_write, textInput));
+  sim=similarity(text_to_write, textInput)
+  err=sim[0]
+  penalty=sim[1]
+  
   err=parseInt(err)
   var adjustedSeconds=parseInt(totalSeconds/penalty);
   if (adjustedSeconds>359999) {
@@ -268,9 +281,6 @@ function submit(){
   }
   ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
   errors.innerHTML=err;
-  
-  console.log("length", text_to_write.length)
-  console.log("totalseconds", totalSeconds)
 
   a=Math.round(text_to_write.length/totalSeconds*60,0)
   b=err/text_to_write.length*100
@@ -279,16 +289,10 @@ function submit(){
   speed.innerHTML=a
   error_rate.innerHTML=b
   
-
-  // var today = new Date();
-  // var d = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  // var t = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  // date.innerHTML=d
-  // time.innerHTML=t
-
   
   resultBox.style.display="block";
   document.getElementById('id_truebtn').style.display="block"
+  document.getElementById('id_truebtn').focus()
 
   document.getElementById('id_truebtn').onclick = function(){
       var exercise_id=document.getElementById('exerciseId').innerHTML

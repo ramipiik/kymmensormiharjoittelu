@@ -92,7 +92,7 @@ def edit_exercise():
     if exercises.edit(id, name, level, description, text_to_write):
         return redirect("/admin")
     else:
-        return render_template("error.html", message="Harjoituksen editointi ei onnistunut")
+        return render_template("error.html", message="Did not manage to edit the exercise")
 
 @app.route("/new_result", methods=["POST"])
 def add_result():
@@ -106,35 +106,28 @@ def add_result():
     else:
         return render_template("error.html", message="Could not store the result")
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 def login():
-    if request.method == "GET":
-        return render_template("login.html")
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        # print("username", username)
-        if users.login(username, password):
-            return redirect("/")
-        else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+    username = request.form["username"]
+    password = request.form["password"]
+    if users.login(username, password):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Incorrect username or password")
 
 @app.route("/logout")
 def logout():
     users.logout()
     return redirect("/")
 
-@app.route("/signup", methods=["GET", "POST"])
+@app.route("/signup", methods=["POST"])
 def signup():
-    if request.method == "GET":
-        return render_template("signup.html")
-    if request.method == "POST":
-        username = request.form["username"]
-        password1 = request.form["password1"]
-        password2 = request.form["password2"]
-        if password1 != password2:
-            return render_template("error.html", message="Salasanat eroavat")
-        if users.signup(username, password1):
-            return redirect("/")
-        else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+    username = request.form["username"]
+    password1 = request.form["password1"]
+    password2 = request.form["password2"]
+    if password1 != password2:
+        return render_template("error.html", message="Passwords are not equal")
+    if users.signup(username, password1):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Registration not successful")

@@ -10,12 +10,39 @@
     </head>
     <body class="body">
         <div class="container">
-            <a href="/">To main page</a><br>
-            <a href="/logout" style="color: red;">Logout</a>
-            <div class="row">
+            <div class="row" style="margin-top: 10px">
+                <div class="col-10">        
+                    <span style="padding-right: 40px;"><a href="/">Main page</a></span>
+                    {% if session.admin %}    
+                        <a href="/admin">Admin panel</a>
+                    {% endif %}
+                </div>                
+                <!-- <div class="col-2">        
+                    <p>User: {{ session.username }}<br>
+                </div> -->
+                <div class="col-2">        
+                    <a href="/logout" style="color: red;">Logout {{session.username}}</a>
+                </div>
+            </div>
+            <hr style="margin-top: 8px; margin-bottom: 0px;">
+            <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 10px;"> -->
+            <div class="row" style="background-color: white; padding: 10px; margin-top: 10px; margin-bottom: 30px;">
                 <div class="col-4">
-                    <h2 style="margin-top: 40px;">Create a new exercise</h2>
-                    <hr>
+                    <h2>Create a new exercise</h2>
+                </div>
+                <div class="col-5">
+                    <h2>Edit exercises</h2>
+                </div>
+                <div class="col-3">
+                    <h2>User stats</h2>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col-4" style="border-right: 1px rgb(218, 215, 215) solid;">
+                    <!-- <h2 style="margin-top: 10px; background-color: white; padding: 10px;">Create a new exercise</h2> -->
+                    <!-- <hr> -->
                     <form action="/new_exercise" method="post">
                         <div class="form-group" >
                             <div style="width: 90%; margin-top: 10px;">
@@ -35,15 +62,15 @@
                                 <textarea type="text_to_write" name="text_to_write" id="text_to_write" class="form-control" rows="10"></textarea>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Submit</button>
+                        <button class="btn btn-danger" onclick="window.location.reload()" >Cancel</button>
                     </form>
-                    <button class="btn btn-danger" onclick="window.location.reload()" >Cancel</button>
+                    
                     
                 </div>
-                <div class="col-5" style="padding-right: 30px;">
-                    <h2 style="margin-top: 40px;
-                    ">Edit exercises</h2>
-                    <hr>
+                <div class="col-5" style="padding-right: 40px;  padding-left: 20px; border-right: 1px rgb(218, 215, 215) solid;">
+                    <!-- <h2 style="margin-top: 40px;">Edit exercises</h2>
+                    <hr> -->
                         {% for exercise in exercises %}
                         <div class="row" name="item">        
                                 <!-- <div name="item" > -->
@@ -63,8 +90,8 @@
                         {% endfor %}
                 </div>
                 <div class="col-3">
-                    <h2 style="margin-top: 40px;">User stats</h2>
-                    <hr>
+                    <!-- <h2 style="margin-top: 40px;">User stats</h2>
+                    <hr> -->
                     <table class="table table-striped" style="margin-top: 10px; font-size: small;">
                        
                             <tr style="line-height: 75%;">

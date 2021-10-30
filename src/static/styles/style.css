@@ -8,6 +8,23 @@ h3 {
     padding-top: 15px;
 }
 
+nav li {
+    ...
+    padding: .5em 1em;
+    border-radius: .5em;
+    margin: .2em;
+}
+
+nav li a {
+    text-decoration: none;
+    color: #000;
+}
+
+nav ul {
+    padding: 0;
+    margin: .5em;
+    text-align: center;
+}
 
 .body {
     background-color: azure;
