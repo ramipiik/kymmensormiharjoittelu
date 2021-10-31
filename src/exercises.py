@@ -88,8 +88,6 @@ def get_passed_by_user():
 def get_stats():
     sql="SELECT username, t.tried, p.passed, created from users left join (SELECT u.id, COUNT(DISTINCT r.exercise_id) as passed FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.id) as p on users.id=p.id LEFT JOIN (SELECT u.id, COUNT(DISTINCT r.exercise_id) AS tried FROM users u LEFT JOIN results r ON u.id=r.user_id GROUP BY u.id) AS t ON users.id=t.id ORDER BY created DESC"
     data = db.session.execute(sql).fetchall()
-    print("+++++++++")
-    print(data)
     return data
 
 def get_passed():
