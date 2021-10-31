@@ -3,7 +3,7 @@ from db import db
 import users
 
 MAX_ERROR_RATE = 0.05
-MIN_TYPING_RATE = 120 #letters per minute 
+MIN_TYPING_RATE = 120 #letters per minute.
 
 def add_result(exercise_id, used_time, adjusted_time, errors):
     user_id = users.user_id()
