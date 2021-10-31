@@ -20,11 +20,11 @@
                     <p>User: {{ session.username }}<br>
                 </div> -->
                 <div class="col-2">        
-                    <a href="/logout" style="color: red;">Logout {{session.username}}</a>
+                    <a href="/logout" style="color: orange;">Logout {{session.username}}</a>
                 </div>
             </div>
             <hr style="margin-top: 8px; margin-bottom: 8px;">
-            <div class="row" style="margin-top: 10px; background-color: white; padding: 10px;">
+            <div class="row" style="margin-top: 10px; background-color: white; padding: 10px; margin-left: -1px;margin-right: -1px; margin-bottom: 20px;">
                 {% if approved %}
                 <div class="col-1">
                     <img src= "{{ url_for('static',filename='images/trophy1.jpeg') }}" style="width: 55px; vertical-align: bottom;">
@@ -36,7 +36,7 @@
                         {% if approved %}
                             <span style="color: green;">Exercise status: Approved</span>
                         {% else %}
-                            <span style="color: red;">Exercise status: Not approved</span>
+                            <span style="color: orange;">Exercise status: Not approved</span>
                         {% endif %}
                     </div>
                 </div>    
@@ -101,7 +101,7 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <button class="btn btn-danger" style="width: 85%;" id="resetButton" onclick="resetTimer()">Reset</button></li>
+                            <button class="btn btn-warning" style="width: 85%; " id="resetButton" onclick="resetTimer()">Reset</button></li>
                         </div>
                         <div class="col-6">
                             <button id="id_truebtn" class="btn btn-success" style=" margin-left: -30px; width: 85%; display: none;">Ok</button>

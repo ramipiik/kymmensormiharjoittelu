@@ -22,7 +22,7 @@
                     <p>User: {{ session.username }}<br>
                 </div> -->
                 <div class="col-2">        
-                    <a href="/logout" style="color: red;">Logout {{session.username}}</a>
+                    <a href="/logout" style="color: orange;">Logout {{session.username}}</a>
                 </div>
             </div>
             <hr style="margin-top: 8px; margin-bottom: 0px;">
@@ -30,25 +30,27 @@
             <a href="/">To main page</a><br>
             <a href="/logout" style="color: red;">Logout</a> -->
             <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 10px;"> -->
-            <div class="row">
+            <div style="background-color: white; padding: 10px; margin-top: 10px;">
+                <h2>Edit exercise</h2>
+            </div>
+            <div class="row" style="margin-top:10px">
                 <div class="col-6">
-                    <h2 style="margin-top: 20px;">Edit exercise</h2>
                     <form action="/edit_exercise" method="post">
                         <div class="form-group" >
-                            <div style="width: 90%; margin-top: 10px;">
-                                <label for="name">Name</label><br>
+                            <div style="width: 90%; margin-top: 20px;">
+                                <label for="name" style="font-weight: bold;">Name</label><br>
                                 <input type="name" name="name" id="name" class="form-control" value="{{exercise["name"]}}" rows="1"></input>
                             </div>
-                            <div style="width: 75px; margin-top: 10px;"> 
-                                <label for="level">Level</label><br>
+                            <div style="width: 75px; margin-top: 20px;"> 
+                                <label for="level" style="font-weight: bold;">Level</label><br>
                                 <input type="level" name="level" id="level" class="form-control" value="{{exercise["level"]}}" rows="1"></input>
                             </div>
-                            <div style="width: 90%; margin-top: 10px;"> 
-                                <label for="description">Description</label><br>
+                            <div style="width: 90%; margin-top: 20px;"> 
+                                <label for="description" style="font-weight: bold;">Description</label><br>
                                 <textarea type="description" name="description" id="description" class="form-control" rows="3" >{{exercise["description"]}}</textarea>
                             </div>
-                            <div style="width: 90%; margin-top: 10px;"> 
-                                <label for="text_to_write">Text to write</label><br>
+                            <div style="width: 90%; margin-top: 20px;"> 
+                                <label for="text_to_write" style="font-weight: bold;">Text to write</label><br>
                                 <textarea type="text_to_write" name="text_to_write" id="text_to_write" class="form-control" rows="10">{{exercise["text_to_write"]}}</textarea>
                             </div>
                             <div style="display: none;"> 
@@ -56,7 +58,7 @@
                             </div>
                         </div>
                         <button style="margin-right: 10px" type="submit" class="btn btn-primary" onclick="return confirm('Are you sure that you want to edit the exercise? That might make earlier results outdated.')">Submit</button>
-                        <button type="submit" class="btn btn-danger" onclick="goBack()" >Cancel</button>
+                        <button type="submit" class="btn btn-warning" onclick="goBack()" >Cancel</button>
                     </form>
                 </div>
             </div>

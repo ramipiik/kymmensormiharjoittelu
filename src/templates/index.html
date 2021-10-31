@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-6" style="padding-right: 40px;">
                     <h4>Login</h4>
-                        <form action="/login" method="post" style="width: 90%; margin-top: 50px;">
+                        <form action="/login" method="post" style="width: 90%; margin-top: 40px;">
                             <div class="form-group" >
                                 <div >
                                     <label for="username" >Username</label>
@@ -29,8 +29,8 @@
                     </form>
                 </div>
                 <div class="col-6" style="text-align: left; padding-left: 40px">
-                    <h4 >Create a new user<a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleSignup()" href="javascript:void(0);" id="toggleSignupButton">Show</a></h4>
-                    <form style="margin-top: 50px; width: 90%; display: none;" action="/signup" method="post" id="signup" >
+                    <h4 >Create new user<a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleSignup()" href="javascript:void(0);" id="toggleSignupButton">Show</a></h4>
+                    <form style="margin-top: 40px; width: 90%; display: none;" action="/signup" method="post" id="signup" >
                         <div class="form-group" >
                             <div >
                                 <label for="username" >Username</label>
@@ -62,10 +62,10 @@
                     <p>User: {{ session.username }}<br>
                 </div> -->
                 <div class="col-2">        
-                    <a href="/logout" style="color: red;">Logout {{session.username}}</a>
+                    <a href="/logout" style="color: orange;">Logout {{session.username}}</a>
                 </div>
             </div>
-            <hr style="margin-top: 8px; margin-bottom: 20px;">
+            <hr style="margin-top: 8px; margin-bottom: 0px;">
             <!-- <hr style="margin-top: 0px; margin-bottom: 20px;"> -->
             <!-- <div class="row">
                 <div class="col-10">        
@@ -85,7 +85,7 @@
             <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 10px;"> -->
 
             
-            <div class="row" style="background-color: white; padding: 10px;">
+            <div class="row" style="background-color: white; padding:10px; margin-left: -1px;margin-right: -1px; margin-top: 10px;">
                 <div class="col-4">
                     <p>Filter exercises by level:</p>
                     {% for level in levels %}
@@ -106,7 +106,7 @@
                         <div name="item" >
                             <!-- <div class="col-4">   -->
                                 {% if exercise[4] %}
-                                    <div style="position:relative; left: 90px">
+                                    <div style="position:relative; left: 80px">
                                 {% else%}
                                     <div >
                                 {% endif %}
