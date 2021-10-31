@@ -1,6 +1,5 @@
 import typing
 from db import db
-# from routes import exercise
 import users
 
 MAX_ERROR_RATE = 0.05
