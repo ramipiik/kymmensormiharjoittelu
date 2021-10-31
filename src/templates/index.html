@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-    <title>Ten-Finger Trainer</title>
+    <title>10-Finger Trainer</title>
     <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body class="body">
     <div class="container">
         {% if not session.user_id %}
-            <h1 style="margin-top: 50px; margin-bottom: 30px; text-align: left;">Welcome to Ten-Finger Trainer</h1>
-            <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 50px;">
+            <h1 style="margin-top: 50px; margin-bottom: 30px; text-align: left;">Welcome to 10-Finger Trainer</h1>
+            <hr style="margin-top: 0px; margin-bottom: 50px;">
+            <!-- <hr style="height:1px;border-width:0;background-color:rgb(187, 183, 183); margin-top: 0px; margin-bottom: 50px;"> -->
+            
             <div class="row">
                 <div class="col-6" style="padding-right: 40px;">
                     <h4>Login</h4>
@@ -66,26 +68,13 @@
                 </div>
             </div>
             <hr style="margin-top: 8px; margin-bottom: 0px;">
-            <!-- <hr style="margin-top: 0px; margin-bottom: 20px;"> -->
-            <!-- <div class="row">
-                <div class="col-10">        
-                    {% if session.admin %}
-                        <span style="padding-right: 40px;"><a href="/">Main page</a></span>
-                        <a href="/admin">Admin panel</a>
-                    {% endif %}
-                </div>                
-                <div class="col-2">        
-                    <p>User: {{ session.username }}<br>
-                    <a href="/logout" style="color: red;">Logout</a>
-                </div>
-            </div> -->
               
             <span id="total_tried_helper" style="display: none;">{{total_tried}}</span>
             <span id="total_passed_helper" style="display: none;">{{total_passed}}</span>
             <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 10px;"> -->
 
             
-            <div class="row" style="background-color: white; padding:10px; margin-left: -1px;margin-right: -1px; margin-top: 10px;">
+            <div class="row" style="background-color: white; margin-left: -1px;margin-right: -1px; margin-top: 10px; padding-top: 15px; padding-bottom: 5px;">
                 <div class="col-4">
                     <p>Filter exercises by level:</p>
                     {% for level in levels %}
@@ -94,9 +83,9 @@
                     <input type="radio" name="chosen_level" value="All" onclick="filter('all')"> All<br><br>
                 </div>
                 <div class="col-8">
-                    Number of exercises: <span id="totalExercises">{{total}}</span><br>
-                    Exercises tried: <span id="tried">{{total_tried}}</span><br>
                     Exercises passed: <span id="passed">{{total_passed}}</span><br>
+                    Exercises tried: <span id="tried">{{total_tried}}</span><br>
+                    Total exercises: <span id="totalExercises">{{total}}</span><br>
                 </div>
             </div>
             <h2 style="margin-top: 30px;">Exercises</h2>
