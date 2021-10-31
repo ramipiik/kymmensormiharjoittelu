@@ -49,9 +49,6 @@ def get_exercise(id):
     return result
 
 def edit(id, name, level, description, text_to_write):
-    print("-----------------")
-    print("id", id, "name", name, "level", level, "desriptin", description, "text_to_write", text_to_write)
-    print("-----------------")
     level=int(level)
     sql = "UPDATE exercises SET name=:name, level=:level, description=:description, text_to_write=:text_to_write WHERE id=:id"
     db.session.execute(sql, {"id": id, "description": description, "text_to_write": text_to_write, "level": level, "name": name})
