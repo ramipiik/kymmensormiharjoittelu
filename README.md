@@ -1,6 +1,7 @@
 # Kymmensormijärjestelmän harjoittelu
 
-Sovelluksen avulla voit opetella ja harjoitella kymmensormijärjestelmän käyttöä. Voit myös mitata edistymistäsi ja kisata muita käyttäjiä vastaan nopeustesteillä. 
+Sovelluksen avulla voit harjoitella kymmensormijärjestelmän käyttöä. Voit myös mitata edistymistäsi ja kisata muita käyttäjiä vastaan nopeustesteillä. 
+Sovellus löytyy osoitteesta: https://type10trainer.herokuapp.com/
 
 Sovelluksen ominaisuuksia:
 

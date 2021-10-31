@@ -2,22 +2,33 @@ from flask import render_template, request, redirect
 from app import app
 import users, exercises, results
 
+
 @app.route("/")
 def index():
     exercises_list = exercises.get_list()
-    total=len(exercises_list)
-    levels=exercises.get_levels()
-    tried=exercises.get_tried_by_user()
-    passed=exercises.get_passed_by_user()
-    total_passed=len(passed)
-    passed_by_level=exercises.get_passed_by_level()
-    return render_template("index.html", exercises=exercises_list, levels=levels, total=total, tried=tried[0], total_tried=tried[1], passed=passed, total_passed=total_passed, passed_by_level=passed_by_level)
+    total = len(exercises_list)
+    levels = exercises.get_levels()
+    tried = exercises.get_tried_by_user()
+    passed = exercises.get_passed_by_user()
+    total_passed = len(passed)
+    passed_by_level = exercises.get_passed_by_level()
+    return render_template(
+        "index.html",
+        exercises=exercises_list,
+        levels=levels,
+        total=total,
+        tried=tried[0],
+        total_tried=tried[1],
+        passed=passed,
+        total_passed=total_passed,
+        passed_by_level=passed_by_level,
+    )
 
 
 @app.route("/admin")
 def admin():
     exercises_list = exercises.get_list()
-    stats=exercises.get_stats()
+    stats = exercises.get_stats()
     if users.is_admin():
         return render_template("admin.html", exercises=exercises_list, stats=stats)
     else:
@@ -27,7 +38,7 @@ def admin():
 @app.route("/edit/<int:id>")
 def edit(id):
     if users.is_admin():
-        exercise=exercises.get_exercise(id)
+        exercise = exercises.get_exercise(id)
         return render_template("edit.html", exercise=exercise)
     else:
         return render_template("error.html", message="Access denied")
@@ -43,22 +54,33 @@ def delete():
     else:
         return render_template("error.html", message="Access denied")
 
+
 @app.route("/exercises/<int:id>")
 def exercise(id):
-    exercise_data=exercises.get_exercise(id)
-    description=exercise_data["description"]
-    text_to_write=exercise_data["text_to_write"]
-    name=exercise_data["name"]
-    
-    #To do: len can be done in SQL
-    text_length=len(text_to_write)
+    exercise_data = exercises.get_exercise(id)
+    description = exercise_data["description"]
+    text_to_write = exercise_data["text_to_write"]
+    name = exercise_data["name"]
 
-    personal_top10=results.get_personal_top10(str(id), text_length)
-    latest_results=results.get_latest_results_by_exercise(str(id), text_length)
-    top10=results.get_top10_by_exercise(str(id), text_length)
-    
-    approved=results.is_approved(str(id))
-    return render_template("/exercise.html", personal_top10=personal_top10, top10=top10, latest_results=latest_results, id=id, description=description, text_to_write=text_to_write, name=name, approved=approved)
+    # To do: len can be done in SQL
+    text_length = len(text_to_write)
+
+    personal_top10 = results.get_personal_top10(str(id), text_length)
+    latest_results = results.get_latest_results_by_exercise(str(id), text_length)
+    top10 = results.get_top10_by_exercise(str(id), text_length)
+
+    approved = results.is_approved(str(id))
+    return render_template(
+        "/exercise.html",
+        personal_top10=personal_top10,
+        top10=top10,
+        latest_results=latest_results,
+        id=id,
+        description=description,
+        text_to_write=text_to_write,
+        name=name,
+        approved=approved,
+    )
 
 
 @app.route("/new_exercise", methods=["POST"])
@@ -70,7 +92,10 @@ def create_exercise():
     if exercises.create(name, level, description, text_to_write):
         return redirect("/admin")
     else:
-        return render_template("error.html", message="Harjoituksen luonti ei onnistunut")
+        return render_template(
+            "error.html", message="Harjoituksen luonti ei onnistunut"
+        )
+
 
 @app.route("/edit_exercise", methods=["POST"])
 def edit_exercise():
@@ -82,20 +107,24 @@ def edit_exercise():
     if exercises.edit(id, name, level, description, text_to_write):
         return redirect("/admin")
     else:
-        return render_template("error.html", message="Something went wrong. It was not possible to edit the exercise")
+        return render_template(
+            "error.html",
+            message="Something went wrong. It was not possible to edit the exercise",
+        )
 
 
 @app.route("/new_result", methods=["POST"])
 def add_result():
     data = request.get_json()
     exercise_id = data["exercise_id"]
-    used_time=data["used_time"]
-    adjusted_time=data["adjusted_time"]
-    errors=data["errors"]
+    used_time = data["used_time"]
+    adjusted_time = data["adjusted_time"]
+    errors = data["errors"]
     if results.add_result(exercise_id, used_time, adjusted_time, errors):
         return redirect("/")
     else:
         return render_template("error.html", message="Could not store the result")
+
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -106,10 +135,12 @@ def login():
     else:
         return render_template("error.html", message="Incorrect username or password")
 
+
 @app.route("/logout")
 def logout():
     users.logout()
     return redirect("/")
+
 
 @app.route("/signup", methods=["POST"])
 def signup():
