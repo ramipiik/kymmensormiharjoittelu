@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-    <title>10-Finger Trainer</title>
-    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-</head>
-
-<body class="body">
-    <div class="container">
-        <div class="row" style="margin-top: 10px">
-            <div class="col-10">        
-                <a href="/admin">Back</a><br>
-            </div>                
+    <head>
+        <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <title>10-Finger Trainer</title>
+        <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    </head>
+    <body class="body">
+        <div class="container">
+            <div class="row" style="margin-top: 10px">
+                <div class="col-10">        
+                    <a href="/">Home</a><br>
+                </div>                
+            </div>
+            <hr style="margin-top: 8px; margin-bottom: 8px;">
+            <h1 style="text-align: left; margin-top: 50px; color: red;">{{ message }}</h1>   
         </div>
-        <hr style="margin-top: 8px; margin-bottom: 8px;">
-        <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 20px; margin-bottom: 10px;"> -->
-        <h1 style="text-align: left; margin-top: 50px; color: red;">{{ message }}</h1>
-    <div>
-    
-
-    </div>
-</body>
+    </body>
+</html>

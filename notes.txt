@@ -1,3 +1,0 @@
-In dev:
-DATABASE_URL=postgresql:///rami
-FLASK_DEBUG=1

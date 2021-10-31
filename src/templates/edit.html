@@ -1,69 +1,57 @@
 {% if session.admin %}
-
-<!<DOCTYPE html>
+    <!DOCTYPE html>
     <html lang="en">
-    <head>
-        <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-        <title>10-Finger Trainer</title>
-        <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    </head>
-    <body class="body">
-        <div class="container">
-            <div class="row" style="margin-top: 10px">
-                <div class="col-10">        
-                    <a href="/admin">Back</a><br>
-                    <!-- <span style="padding-right: 40px;"><a href="/">Main page</a></span>
-                    {% if session.admin %}    
-                        <a href="/admin">Admin panel</a>
-                    {% endif %} -->
-                </div>                
-                <!-- <div class="col-2">        
-                    <p>User: {{ session.username }}<br>
-                </div> -->
-                <div class="col-2">        
-                    <a href="/logout" style="color: orange;">Logout {{session.username}}</a>
+        <head>
+            <meta name="viewport", charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+            <title>10-Finger Trainer</title>
+            <link rel="stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        </head>
+        <body class="body">
+            <div class="container">
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-10">        
+                        <a href="/admin">Back</a><br>
+                    </div>                
+                    <div class="col-2">        
+                        <a href="/logout" style="color: orange;">Logout {{session.username}}</a>
+                    </div>
+                </div>
+                <hr style="margin-top: 8px; margin-bottom: 0px;">
+                <div style="background-color: white; padding-top: 15px; padding-bottom: 5px; padding-left: 10px; margin-top: 10px;">
+                    <h2>Edit exercise</h2>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-6">
+                        <form action="/edit_exercise" method="post">
+                            <div class="form-group" >
+                                <div style="width: 90%; margin-top: 20px;">
+                                    <label for="name" style="font-weight: bold;">Name</label><br>
+                                    <input type="name" name="name" id="name" class="form-control" value="{{exercise["name"]}}" rows="1"></input>
+                                </div>
+                                <div style="width: 75px; margin-top: 20px;"> 
+                                    <label for="level" style="font-weight: bold;">Level</label><br>
+                                    <input type="level" name="level" id="level" class="form-control" value="{{exercise["level"]}}" rows="1"></input>
+                                </div>
+                                <div style="width: 90%; margin-top: 20px;"> 
+                                    <label for="description" style="font-weight: bold;">Description</label><br>
+                                    <textarea type="description" name="description" id="description" class="form-control" rows="3" >{{exercise["description"]}}</textarea>
+                                </div>
+                                <div style="width: 90%; margin-top: 20px;"> 
+                                    <label for="text_to_write" style="font-weight: bold;">Text to write</label><br>
+                                    <textarea type="text_to_write" name="text_to_write" id="text_to_write" class="form-control" rows="10">{{exercise["text_to_write"]}}</textarea>
+                                </div>
+                                <div style="display: none;"> 
+                                    <input name="id" id="id" class="form-control" value="{{exercise["id"]}}"></input>
+                                </div>
+                            </div>
+                            <button style="margin-right: 10px" type="submit" class="btn btn-primary" onclick="return confirm('Are you sure that you want to edit the exercise? That might make earlier results outdated.')">Submit</button>
+                            <button type="submit" class="btn btn-warning" onclick="goBack()" >Cancel</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <hr style="margin-top: 8px; margin-bottom: 0px;">
-            <!-- <a href="/admin">Back</a><br>
-            <a href="/">To main page</a><br>
-            <a href="/logout" style="color: red;">Logout</a> -->
-            <!-- <hr style="height:2px;border-width:0;background-color:gray; margin-top: 0px; margin-bottom: 10px;"> -->
-            <div style="background-color: white; padding: 10px; margin-top: 10px;">
-                <h2>Edit exercise</h2>
-            </div>
-            <div class="row" style="margin-top:10px">
-                <div class="col-6">
-                    <form action="/edit_exercise" method="post">
-                        <div class="form-group" >
-                            <div style="width: 90%; margin-top: 20px;">
-                                <label for="name" style="font-weight: bold;">Name</label><br>
-                                <input type="name" name="name" id="name" class="form-control" value="{{exercise["name"]}}" rows="1"></input>
-                            </div>
-                            <div style="width: 75px; margin-top: 20px;"> 
-                                <label for="level" style="font-weight: bold;">Level</label><br>
-                                <input type="level" name="level" id="level" class="form-control" value="{{exercise["level"]}}" rows="1"></input>
-                            </div>
-                            <div style="width: 90%; margin-top: 20px;"> 
-                                <label for="description" style="font-weight: bold;">Description</label><br>
-                                <textarea type="description" name="description" id="description" class="form-control" rows="3" >{{exercise["description"]}}</textarea>
-                            </div>
-                            <div style="width: 90%; margin-top: 20px;"> 
-                                <label for="text_to_write" style="font-weight: bold;">Text to write</label><br>
-                                <textarea type="text_to_write" name="text_to_write" id="text_to_write" class="form-control" rows="10">{{exercise["text_to_write"]}}</textarea>
-                            </div>
-                            <div style="display: none;"> 
-                                <input name="id" id="id" class="form-control" value="{{exercise["id"]}}"></input>
-                            </div>
-                        </div>
-                        <button style="margin-right: 10px" type="submit" class="btn btn-primary" onclick="return confirm('Are you sure that you want to edit the exercise? That might make earlier results outdated.')">Submit</button>
-                        <button type="submit" class="btn btn-warning" onclick="goBack()" >Cancel</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </body>
-    <script src="{{ url_for('static',filename='main.js') }}"></script>
-
+        </body>
+        <script src="{{ url_for('static',filename='main.js') }}"></script>
+    </html>
 {% endif %}

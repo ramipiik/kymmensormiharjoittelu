@@ -3,8 +3,9 @@ import users
 
 def get_list():
     sql = "SELECT id, name, description, level FROM exercises ORDER BY level"
+    
+    #TO DO: Combine two queries into one.
     data = db.session.execute(sql).fetchall()
-
     passed = get_passed_by_user()
     new_data=[]
     for i, item in enumerate(data):
@@ -15,8 +16,6 @@ def get_list():
             new_data[i].append(True)
         else:
             new_data[i].append(False)
-
-    print("new_data", new_data)
     return new_data
 
 def get_levels():
@@ -42,6 +41,7 @@ def delete(id):
         db.session.execute(sql, {"id":id})
         db.session.commit()
         return True
+    return False
 
 def get_exercise(id):
     sql = "SELECT description, level, text_to_write, name, id FROM exercises WHERE id=:id"
@@ -57,6 +57,7 @@ def edit(id, name, level, description, text_to_write):
 
 def get_tried_by_user():
     user_id = users.user_id()
+    # TO DO: Do the the calculation directly in the SQL query
     sql="SELECT COUNT(DISTINCT results.exercise_id), exercises.level FROM results LEFT JOIN  exercises ON results.exercise_id=exercises.id WHERE results.user_id=:user_id GROUP BY exercises.level;"
     result = db.session.execute(sql, {"user_id": user_id}).fetchall()
     tried={}
@@ -64,7 +65,6 @@ def get_tried_by_user():
     for item in result:
         tried[item[1]]=item[0]
         total_tried+=item[0]
-
     return (tried, total_tried)
 
 def get_tried():
@@ -76,7 +76,6 @@ def get_passed_by_user():
     user_id = users.user_id()
     sql="SELECT DISTINCT r.exercise_id FROM results r WHERE r.user_id=:user_id AND r.approved=True;"
     data = db.session.execute(sql, {"user_id": user_id}).fetchall()
-    
     result=[]
     for item in data:
         result.append(item[0])
@@ -88,9 +87,7 @@ def get_stats():
     return data
 
 def get_passed():
-    # sql="SELECT u.username, COUNT(DISTINCT r.exercise_id) FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.username";
     sql="SELECT username, x.total, created from users left join (SELECT u.id, COUNT(DISTINCT r.exercise_id) as total FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.id) as x on users.id=x.id ORDER BY created DESC";
-    # sql="SELECT username, x.total, (SELECT 1), created from users left join (SELECT u.id, COUNT(DISTINCT r.exercise_id) as total FROM users u LEFT JOIN results r ON u.id=r.user_id WHERE r.approved=True GROUP BY u.id) as x on users.id=x.id ORDER BY created DESC";
     data = db.session.execute(sql).fetchall()
     return data
 

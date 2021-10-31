@@ -1,8 +1,5 @@
-
-// Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak
 const timer = document.getElementById('stopwatch');
 const input = document.getElementById('input');
-// const result = document.getElementById('result');
 const timeUsed = document.getElementById('timeUsed');
 const errors = document.getElementById('errors');
 const error_rate = document.getElementById('error_rate');
@@ -18,22 +15,55 @@ var resultBox=document.getElementById('resultBox')
 var date = document.getElementById('date')
 var time = document.getElementById('time')
 
-
 var hr = 0;
 var min = 0;
 var sec = 0;
 var stoptime = true;
-// var errorcount=0
+
+function filter(level, tried, passed) {
+  // Loop through all list items, and hide those who don't match the search query
+
+  elements = document.getElementsByName('item');
+  count=0
+  
+  for (i = 0; i < elements.length; i++) {
+    a = elements[i].getElementsByTagName("span")[0];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue == level.toString() || level=="all") {
+        elements[i].style.display = "";
+        count++;
+    }
+    else {
+        elements[i].style.display = "none";
+    } 
+  }
+  
+  document.getElementById("totalExercises").innerHTML=count
+  tried_on_this_level=document.getElementById("total_tried_helper").innerHTML
+  passed_on_this_level=document.getElementById("total_passed_helper").innerHTML
+
+  if (level != 'all'){
+    if (tried[level]) {
+        tried_on_this_level=tried[level]
+    } else {
+        tried_on_this_level=0
+    }
+    if (passed[level]) {
+        passed_on_this_level=passed[level]
+    } else {
+        passed_on_this_level=0
+    }
+  }
+  document.getElementById("tried").innerHTML=tried_on_this_level
+  document.getElementById("passed").innerHTML=passed_on_this_level
+}
 
 function startTimer() {
   console.log("start timer")
   if (stoptime == true) {
         stoptime = false;
         timerCycle();
-        // resetButton.style.display=""
-      
     }
-  // pauseButton.style.display=""
 }
 
 function goBack() {
@@ -73,17 +103,6 @@ function toggleSignup() {
     document.getElementById('toggleSignupButton').innerHTML='Show'
   }
 }
-// function stopTimer() {
-//   result.style.display="none"
-//   if (stoptime == false) {
-//     stoptime = true;
-//   }
-  
-//   input.disabled=false
-//   result.style.display="none"
-//   input.style.backgroundColor = "white";
-//   input.focus();
-// }
 
 function toggleInstructions() {
   if (instructions.style.display == 'none') {
@@ -134,16 +153,12 @@ function secondsToTime(seconds) {
     hours = '0' + hours;
   }
 
-  // if (hours>100) {
-  //   hours=99;
-  //   minutes=59
-  //   seconds=59
-  // }
   var result = hours + ':' + minutes + ':' + seconds;
   return result
 
 }
 
+// Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak
 function timerCycle() {
     if (stoptime == false) {
       sec = parseInt(sec);
@@ -173,7 +188,6 @@ function timerCycle() {
       }
 
       timer.innerHTML = hr + ':' + min + ':' + sec;
-
       setTimeout("timerCycle()", 1000);
   }
 }
@@ -190,7 +204,6 @@ function resetTimer() {
     input.style.backgroundColor = "white";
     input.disabled = false;
     if (resultBox.style.display != "none") resultBox.style.display="none"
-    // resetButton.style.display='none'
     input.focus();
 }
 
@@ -240,7 +253,6 @@ function editDistance(s1, s2) {
 
 
 function postRequest(data, URL) {
-  
   fetch(URL, {
     method: "POST",
     headers: {
@@ -260,7 +272,6 @@ function submit(){
   }
   input.style.backgroundColor = "whiteSmoke";
   input.disabled = true;
-  // result.style.display="block"
   var totalSeconds=parseInt(hr)*3600+parseInt(min)*60+parseInt(sec)
   if (totalSeconds==0) {
     return
@@ -289,7 +300,6 @@ function submit(){
   speed.innerHTML=a
   error_rate.innerHTML=b
   
-  
   resultBox.style.display="block";
   document.getElementById('id_truebtn').style.display="block"
   document.getElementById('id_truebtn').focus()
@@ -305,15 +315,6 @@ function submit(){
         adjusted_time: adjustedSeconds,
         errors: err
       }
-      postRequest(data, "/new_result")
-
-      
+      postRequest(data, "/new_result")      
   };
-  // document.getElementById('id_falsebtn').onclick = function(){
-  //       alert('false');
-  //     return false;
-  // };
 }
-
-
-// document.getElementById("test").innerHTML="toka"

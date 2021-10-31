@@ -1,25 +1,12 @@
-h1 {
-    /* background-color:lightgrey; */
-    text-align: center;
-    /* border-bottom: 5px solid rgb(186, 188, 196); */
-}
-
 h3 {
     padding-top: 15px;
 }
 
 .body {
     background-color: azure;
-    color:rgb(80, 75, 75)
+    color:rgb(80, 75, 75);
+    font-family: sans-serif
 }
-
-.row {
-    display: flex;
-  }
-  
-  .column {
-    flex: 50%;
-  }
 
 .assignment {
     background-color: white;
@@ -35,100 +22,16 @@ h3 {
     height: 100px
 }
 
-#fame {
-    background-color: #eee;
-    border-radius: 5px;
-    border: 1px solid #aaa;
-    width: 100%;
-    left: 50%;
-    padding: 4px;
-    box-sizing: border-box;
-    margin-top: 10px;
-    padding-left: 12px;
-}
-
-/* #history {
-    /* border: 1px solid grey;
-    padding: 5px;
-    margin-top: 20px; */
-
-    /* background-color: #eee;
-    border-radius: 5px;
-    border: 1px solid #aaa;
-    width: 100%;
-    left: 50%;
-    padding: 4px;
-    box-sizing: border-box;
-    margin-top: 20px;
-    padding-left: 12px;
-    margin-bottom: 50px */
-/* } */
-
-#text-to-write {
-    background-color: whitesmoke;
-}
-
-/* #instructions {
-    display: none; */
-/* } */
-
-/* Code of the stopwatch adapted from https://dev.to/gspteck/create-a-stopwatch-in-javascript-2mak */
-/* .stopwatchbutton {
-    width: 100px;
-    height: 30px;
-    border: 3px soldi white;
-    border-radius: 50px;
-    background: #202020;
-    color: white;
-    cursor: pointer;
-    outline: none;
-} */
-
 #stopwatch {
     font-size: 50px;
-    /* margin-top: 30px; */
 }
-
-/* #buttons li {
-    display: inline;
-    padding-left: 10px;
-} */
-
-body { font-family: sans-serif; }
 
 #resultBox
 {
     display: none;
-        /* background-color: #eee; */
     border-radius: 5px;
-    /* border: 1px solid #aaa; */
-    /* position: fixed; */
     width: 90%;
     left: 50%;
-    /* margin-left: -150px; */
     padding: 8px;
     box-sizing: border-box;
-    /* margin-top: 40px; */
-}
-
-/* #id_confrmdiv button {
-    background-color: #ccc;
-    display: inline-block;
-    border-radius: 3px;
-    border: 1px solid #aaa;
-    padding: 2px;
-    text-align: center;
-    width: 80px;
-    cursor: pointer; */
-/* } */
-
-/* #id_confrmdiv .button:hover
-{
-    background-color: #ddd;
-} */
-
-#confirmBox .message
-{
-    text-align: left;
-    margin-bottom: 8px;
 }
