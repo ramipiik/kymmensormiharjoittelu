@@ -18,4 +18,8 @@ Sovelluksen avulla voit harjoitella kymmensormijärjestelmän käyttöä. Voit m
 * Sovellus löytyy osoitteesta: https://type10trainer.herokuapp.com/
 * Perustoiminnallisuus on koodausmielessä kasassa. Eli kaikki alkuperäisen vaatimusmäärittelyn vaatimukset toteutuvat.
 * Enää puuttuu itse sisältö eli mielekkäät harjoitukset. :)
-* Kysymys: Omaan toteutukseeni jäi lopulta vain ao. kolme tietokantataulua (ks. schema.sql) LISÄÄ HYPERLINKKI. a) Onko tämä ok näin? Vai yritänkö b) laajentaa sisältöä siten että tauluja tulee lisää (esim. mahdollisuus lisätä omia muistiinpanoja tms)? c) Vai pilkonko olemassa olemat taulut pienemmiksi?
+* Admin-toiminnallisuuksia voi testata tunnuksella username: admin, password: admin.
+* Kysymys: Omaan toteutukseeni jäi lopulta vain ao. kolme tietokantataulua (ks. [schema.sql](https://github.com/ramipiik/kymmensormiharjoittelu/blob/main/src/schema.sql)).  
+  1. Onko tämä ok näin?
+  1. Vai yritänkö laajentaa sisältöä siten että tauluja tulee lisää (esim. mahdollisuus lisätä omia muistiinpanoja tms)?  
+  1. Vai pilkonko olemassa olemat taulut pienemmiksi?
