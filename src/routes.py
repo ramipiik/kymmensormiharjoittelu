@@ -146,10 +146,9 @@ def login():
 def comment():
     content = request.form["new_comment"]
     exercise_id = request.form["exercise_id"]
-    print("content", content)
-    print("exercise_id", exercise_id)
+    print(request.referrer)
     if comments.add_comment(exercise_id, content):
-        return redirect("/exercises/" + exercise_id)
+        return redirect(request.referrer)
     else:
         return render_template(
             "error.html", message="Hmmm. Couldn't add the comment. :|"
