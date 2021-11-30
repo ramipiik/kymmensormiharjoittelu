@@ -3,7 +3,7 @@ import users
 
 
 def get_list():
-    sql = "SELECT id, name, description, level FROM exercises ORDER BY level"
+    sql = "SELECT id, name, description, level FROM exercises ORDER BY level, name"
 
     # TO DO: Combine two queries into one.
     data = db.session.execute(sql).fetchall()

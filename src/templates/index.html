@@ -40,11 +40,11 @@
                                 </div>
                                 <div class="form-group" style="margin-top: 20px;">
                                     <label for="password1">Password</label>
-                                    <input type="password1" class="form-control" id="password1" name="password1">
+                                    <input type="password" class="form-control" id="password1" name="password1">
                                 </div>
                                 <div class="form-group" style="margin-bottom: 40px; margin-top: 20px;">
                                     <label for="password2">Re-enter password</label>
-                                    <input type="password2" class="form-control" id="password2" name="password2">
+                                    <input type="password" class="form-control" id="password2" name="password2">
                                 </div>
                                 <button type="submit" value="Luo tunnus" class="btn btn-primary">Create user</button>
                             </div>
@@ -78,6 +78,15 @@
                         Total exercises: <span id="totalExercises">{{total}}</span><br>
                     </div>
                 </div>
+                <h2 style="margin-top: 30px;">Theory</h2>
+                    <ul>
+                        <li>
+                            <a href="https://fi.wikipedia.org/wiki/Kymmensormij%C3%A4rjestelm%C3%A4" target="_blank">wikipedia</a>
+                        </li>
+                        <li>
+                            <a href="http://www.naturalprogramming.com/in_finnish/kymmenella_sormella.html" target="_blank">naturalprogramming.com</a>
+                        </li>
+                    </ul>
                 <h2 style="margin-top: 30px;">Exercises</h2>
                 <hr>
                 {% for exercise in exercises %}
