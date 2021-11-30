@@ -14,6 +14,14 @@ CREATE TABLE exercises (
     text_to_write TEXT
 );
 
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    exercise_id INTEGER REFERENCES exercises,
+    content TEXT,
+    created TIMESTAMP
+);
+
 CREATE TABLE results (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,

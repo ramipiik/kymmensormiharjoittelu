@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect
 from app import app
-import users, exercises, results
+import users, exercises, results, comments
 
 
 @app.route("/")
@@ -8,6 +8,8 @@ def index():
     exercises_list = exercises.get_list()
     total = len(exercises_list)
     levels = exercises.get_levels()
+    comment_count = comments.get_count()
+    print(comment_count)
     tried = exercises.get_tried_by_user()
     passed = exercises.get_passed_by_user()
     total_passed = len(passed)
@@ -22,6 +24,7 @@ def index():
         passed=passed,
         total_passed=total_passed,
         passed_by_level=passed_by_level,
+        comment_count=comment_count,
     )
 
 
@@ -68,6 +71,7 @@ def exercise(id):
     personal_top10 = results.get_personal_top10(str(id), text_length)
     latest_results = results.get_latest_results_by_exercise(str(id), text_length)
     top10 = results.get_top10_by_exercise(str(id), text_length)
+    comments_data = comments.get_comments(str(id))
 
     approved = results.is_approved(str(id))
     return render_template(
@@ -80,6 +84,8 @@ def exercise(id):
         text_to_write=text_to_write,
         name=name,
         approved=approved,
+        comments=comments_data,
+        nr_of_comments=len(comments_data),
     )
 
 
@@ -134,6 +140,20 @@ def login():
         return redirect("/")
     else:
         return render_template("error.html", message="Incorrect username or password")
+
+
+@app.route("/comment", methods=["POST"])
+def comment():
+    content = request.form["new_comment"]
+    exercise_id = request.form["exercise_id"]
+    print("content", content)
+    print("exercise_id", exercise_id)
+    if comments.add_comment(exercise_id, content):
+        return redirect("/exercises/" + exercise_id)
+    else:
+        return render_template(
+            "error.html", message="Hmmm. Couldn't add the comment. :|"
+        )
 
 
 @app.route("/logout")

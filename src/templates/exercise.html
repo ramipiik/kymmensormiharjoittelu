@@ -40,11 +40,11 @@
             </div> 
             <div class="row">
                 <div class="col-7">
-                    <h3>Theme</h3>
+                    <h3>Description</h3>
                     <p style="margin-bottom: 0px;">{{description}}</p>
                     <h3 style="margin-top:20px">Instructions <a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleInstructions()" href="javascript:void(0);" id="toggleInstructionsButton">Show</a></h3>
                     <ul id="instructions" style="display: none; padding-right: 50px;" >
-                        <li>Times starts automatically when you start typing</li>
+                        <li>Timer starts automatically when you start typing</li>
                         <li>Press tab when you are ready</li>
                         <li>Typos increase the total time</li>
                         <li>Passing the exercise requires less than 5% errors and a typing speed of more than 120 characters per minute
@@ -157,6 +157,31 @@
                                 </div>
                             </table>
                         {% endif %}
+                    </div>
+                    <div>
+                        <h3 style="margin-top:20px">Comments on the exercise ({{nr_of_comments}})<a style="margin-left: 20px; font-size: medium; font-weight: normal;" onclick="toggleComments()" href="javascript:void(0);" id="toggleCommentsButton">Hide</a></h3>
+                        <div id="comments" style="display: block;"">     
+                            <form action="/comment" method="post" style="width: 100%; margin-top: 20px;">
+                                <div class="form-group" >
+                                    <input style="display:none" class="form-control" id="exercise_id" name="exercise_id" value="{{id}}"></input>
+                                    <div>
+                                        <textarea type="new_comment" class="form-control" id="new_comment" name="new_comment"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success">Post comment</button>
+                            </form>      
+                            {% if comments %}
+                            <div style="margin-top: 30px; padding: 10px; background-color: white; border: 1px solid lightgrey;">
+                                {% for comment in comments %}
+                                <p style="margin-bottom: 10px;">
+                                    <span style="font-size: small; font-weight: bold;">{{comment["username"]}} on {{comment["created"].strftime("%Y-%m-%d")}}:</span><br>
+                                    {{comment["content"]}}
+                                <p>
+                                <hr>
+                                {% endfor %}        
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

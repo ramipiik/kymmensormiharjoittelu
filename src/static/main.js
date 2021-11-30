@@ -7,7 +7,8 @@ const speed = document.getElementById('speed');
 const errorAdjustedTime=document.getElementById('ErrorAdjustedTime')
 const pauseButton=document.getElementById('pauseButton')
 const resetButton=document.getElementById('resetButton')
-const insructions=document.getElementById('instructions')
+const instructions=document.getElementById('instructions')
+const comments=document.getElementById('comments')
 const scoreBoard=document.getElementById('scoreBoard')
 const history=document.getElementById('history')
 var test = document.getElementById('test')
@@ -111,6 +112,19 @@ function toggleInstructions() {
   } else {
     instructions.style.display = 'none'
     document.getElementById('toggleInstructionsButton').innerHTML='Show'
+  } 
+  input.disabled = false;
+  input.style.backgroundColor = "white";
+  input.focus();
+}
+
+function toggleComments() {
+  if (comments.style.display == 'none') {
+    comments.style.display = 'block'
+    document.getElementById('toggleCommentsButton').innerHTML='Hide'
+  } else {
+    comments.style.display = 'none'
+    document.getElementById('toggleCommentsButton').innerHTML='Show'
   } 
   input.disabled = false;
   input.style.backgroundColor = "white";
