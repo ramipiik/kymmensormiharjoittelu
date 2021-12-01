@@ -12,6 +12,9 @@ const comments=document.getElementById('comments')
 const scoreBoard=document.getElementById('scoreBoard')
 const history=document.getElementById('history')
 const csrf_token=document.getElementById('csrf_token').innerHTML
+const usernameHelpBlock=document.getElementById("usernameHelpBlock")
+// const username=document.getElementById("username")
+// const password=document.getElementById("password")
 var test = document.getElementById('test')
 var resultBox=document.getElementById('resultBox')
 var date = document.getElementById('date')
@@ -21,6 +24,12 @@ var hr = 0;
 var min = 0;
 var sec = 0;
 var stoptime = true;
+
+// function validate_login() {
+//   console.log(username)
+//   console.log(password)
+//   alert("pause")
+// }
 
 function filter(level, tried, passed) {
   // Loop through all list items, and hide those who don't match the search query
@@ -330,7 +339,6 @@ function submit(){
         errors: err,
         csrf_token: csrf_token
       }
-      console.log(data)
       postRequest(data, "/new_result")      
   };
 }

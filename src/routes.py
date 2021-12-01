@@ -97,9 +97,27 @@ def exercise(id):
 @app.route("/new_exercise", methods=["POST"])
 def create_exercise():
     name = request.form["name"]
+    if len(name)<1 or len (name)>40:
+        return render_template("error.html", message="Exercise name must be 1-40 characters long")
+
     description = request.form["description"]
+    if len(description)<1 or len (description)>100:
+        return render_template("error.html", message="Description must be 1-100 characters long")
+
     level = request.form["level"]
+    try:
+        level=int(level)
+    except:
+        return render_template("error.html", message="Level must be a number between 0 and 10")
+    if level<0 or level>10:
+        return render_template("error.html", message="Level must be a number between 0 and 10")
+
     text_to_write = request.form["text_to_write"]
+    if len(text_to_write)<3 or len (text_to_write)>1000:
+        return render_template("error.html", message="Text to write must be 3-1000 characters long")
+    if '\n' in text_to_write:
+        return render_template("error.html", message="Sorry, line breaks are not allowed in the exercise text. That's because the algorithm for checking typos cannot handle them properly. :|")
+
     csrf_received = request.form["csrf_token"]
     if csrf_received != session["csrf_token"]:
         print("csrf_tokens don't match")
@@ -116,13 +134,32 @@ def create_exercise():
 def edit_exercise():
     id = request.form["id"]
     name = request.form["name"]
+    if len(name)<1 or len (name)>40:
+        return render_template("error.html", message="Exercise name must be 1-40 characters long")
+
     description = request.form["description"]
+    if len(description)<1 or len (description)>100:
+        return render_template("error.html", message="Description must be 1-100 characters long")
+
     level = request.form["level"]
+    try:
+        level=int(level)
+    except:
+        return render_template("error.html", message="Level must be a number between 0 and 10")
+    if level<0 or level>10:
+        return render_template("error.html", message="Level must be a number between 0 and 10")
+
     text_to_write = request.form["text_to_write"]
+    if len(text_to_write)<3 or len (text_to_write)>1000:
+        return render_template("error.html", message="Text to write must be 3-1000 characters long")
+    if '\n' in text_to_write:
+        return render_template("error.html", message="Sorry, line breaks are not allowed in the exercise text. That's because the algorithm for checking typos cannot handle them properly. :|")
+
     csrf_received = request.form["csrf_token"]
     if csrf_received != session["csrf_token"]:
         print("csrf_tokens don't match")
         abort(403)
+    
     if exercises.edit(id, name, level, description, text_to_write):
         return redirect("/admin")
     else:
@@ -143,6 +180,18 @@ def add_result():
     used_time = data["used_time"]
     adjusted_time = data["adjusted_time"]
     errors = data["errors"]
+
+    try:
+        exercise_id=int (exercise_id)
+        used_time=int (used_time)
+        used_time=int (adjusted_time)
+        errors=int (errors)
+    except:
+        return render_template(
+            "error.html",
+            message="Hmm. Something went wrong. :|"
+        )
+
     if results.add_result(exercise_id, used_time, adjusted_time, errors):
         return redirect("/")
     else:
@@ -154,8 +203,6 @@ def login():
     username = request.form["username"]
     password = request.form["password"]
     if users.login(username, password):
-        print(session["csrf_token"])
-        print(session["username"])
         return redirect("/")
     else:
         return render_template("error.html", message="Incorrect username or password")
@@ -164,6 +211,8 @@ def login():
 @app.route("/comment", methods=["POST"])
 def comment():
     content = request.form["new_comment"]
+    if len(content)<1 or len (content)>400:
+        return render_template("error.html", message="Comment must be 1-400 characters long")
     exercise_id = request.form["exercise_id"]
     csrf_received = request.form["csrf_token"]
     if csrf_received != session["csrf_token"]:
@@ -188,6 +237,10 @@ def signup():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
+    if len(username)<2 or len (username)>20:
+        return render_template("error.html", message="Username must be 2-20 characters long")
+    if len(password1)<2 or len (password1)>20:
+        return render_template("error.html", message="Password must be 2-20 characters long")
     if password1 != password2:
         return render_template("error.html", message="Passwords are not equal")
     if users.signup(username, password1):

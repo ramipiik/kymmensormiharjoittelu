@@ -28,19 +28,31 @@
                                 <div style="width: 90%; margin-top: 20px;">
                                     <label for="name" style="font-weight: bold;">Name</label><br>
                                     <input type="name" name="name" id="name" class="form-control" value="{{exercise["name"]}}" rows="1"></input>
+                                    <div class="form-text" style="font-size: x-small;">
+                                        1-40 characters
+                                    </div>
                                 </div>
                                 <div style="width: 75px; margin-top: 20px;"> 
                                     <label for="level" style="font-weight: bold;">Level</label><br>
                                     <input type="level" name="level" id="level" class="form-control" value="{{exercise["level"]}}" rows="1"></input>
                                 </div>
+                                <div class="form-text" style="font-size: x-small;">
+                                    Number between 0 and 10
+                                </div>
                                 <div style="width: 90%; margin-top: 20px;"> 
                                     <label for="description" style="font-weight: bold;">Description</label><br>
                                     <textarea type="description" name="description" id="description" class="form-control" rows="3" >{{exercise["description"]}}</textarea>
+                                    <div class="form-text" style="font-size: x-small;">
+                                        1-100 characters
+                                    </div>
                                 </div>
                                 <div style="width: 90%; margin-top: 20px;"> 
                                     <label for="text_to_write" style="font-weight: bold;">Text to write</label><br>
-                                    <small>No line breaks in the text. Error checking doesn't handle them properly. </small>
+                                    <small></small>
                                     <textarea type="text_to_write" name="text_to_write" id="text_to_write" class="form-control" rows="10">{{exercise["text_to_write"]}}</textarea>
+                                    <div class="form-text" style="font-size: x-small;">
+                                        3-1000 characters. No line breaks. 
+                                    </div>
                                 </div>
                                 <div style="display: none;"> 
                                     <input name="id" id="id" class="form-control" value="{{exercise["id"]}}"></input>
