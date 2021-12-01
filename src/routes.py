@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session, abort
 from app import app
 import users, exercises, results, comments
 
@@ -50,6 +50,10 @@ def edit(id):
 @app.route("/delete", methods=["POST"])
 def delete():
     data = request.get_json()
+    csrf_received = data["csrf_token"]
+    if csrf_received != session["csrf_token"]:
+        print("csrf_tokens don't match")
+        abort(403)
     id = data["id"]
     if users.is_admin():
         exercises.delete(id)
@@ -86,6 +90,7 @@ def exercise(id):
         approved=approved,
         comments=comments_data,
         nr_of_comments=len(comments_data),
+        csfr_token=session["csrf_token"]
     )
 
 
@@ -95,6 +100,10 @@ def create_exercise():
     description = request.form["description"]
     level = request.form["level"]
     text_to_write = request.form["text_to_write"]
+    csrf_received = request.form["csrf_token"]
+    if csrf_received != session["csrf_token"]:
+        print("csrf_tokens don't match")
+        abort(403)
     if exercises.create(name, level, description, text_to_write):
         return redirect("/admin")
     else:
@@ -110,6 +119,10 @@ def edit_exercise():
     description = request.form["description"]
     level = request.form["level"]
     text_to_write = request.form["text_to_write"]
+    csrf_received = request.form["csrf_token"]
+    if csrf_received != session["csrf_token"]:
+        print("csrf_tokens don't match")
+        abort(403)
     if exercises.edit(id, name, level, description, text_to_write):
         return redirect("/admin")
     else:
@@ -122,6 +135,10 @@ def edit_exercise():
 @app.route("/new_result", methods=["POST"])
 def add_result():
     data = request.get_json()
+    csrf_received = data["csrf_token"]
+    if csrf_received != session["csrf_token"]:
+        print("csrf_tokens don't match")
+        abort(403)
     exercise_id = data["exercise_id"]
     used_time = data["used_time"]
     adjusted_time = data["adjusted_time"]
@@ -137,6 +154,8 @@ def login():
     username = request.form["username"]
     password = request.form["password"]
     if users.login(username, password):
+        print(session["csrf_token"])
+        print(session["username"])
         return redirect("/")
     else:
         return render_template("error.html", message="Incorrect username or password")
@@ -146,7 +165,10 @@ def login():
 def comment():
     content = request.form["new_comment"]
     exercise_id = request.form["exercise_id"]
-    print(request.referrer)
+    csrf_received = request.form["csrf_token"]
+    if csrf_received != session["csrf_token"]:
+        print("csrf_tokens don't match")
+        abort(403)
     if comments.add_comment(exercise_id, content):
         return redirect(request.referrer)
     else:

@@ -45,6 +45,7 @@
                                 <div style="display: none;"> 
                                     <input name="id" id="id" class="form-control" value="{{exercise["id"]}}"></input>
                                 </div>
+                                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                             </div>
                             <button style="margin-right: 10px" type="submit" class="btn btn-primary" onclick="return confirm('Are you sure that you want to edit the exercise? That might make earlier results outdated.')">Submit</button>
                             <button type="submit" class="btn btn-warning" onclick="goBack()" >Cancel</button>

@@ -11,6 +11,7 @@ const instructions=document.getElementById('instructions')
 const comments=document.getElementById('comments')
 const scoreBoard=document.getElementById('scoreBoard')
 const history=document.getElementById('history')
+const csrf_token=document.getElementById('csrf_token').innerHTML
 var test = document.getElementById('test')
 var resultBox=document.getElementById('resultBox')
 var date = document.getElementById('date')
@@ -78,7 +79,8 @@ function refreshPage() {
 function delete_exercise(id) {
   confirm("Are you sure that you want to delete exercise "+id+"?");
   data = {
-    id: id
+    id: id,
+    csrf_token: csrf_token
   }
   URL= '/delete'
   postRequest(data, URL)
@@ -320,15 +322,15 @@ function submit(){
 
   document.getElementById('id_truebtn').onclick = function(){
       var exercise_id=document.getElementById('exerciseId').innerHTML
-      console.log("exercise_id", exercise_id)
       exercise_id=parseInt(exercise_id)
-      console.log("exercise_id", exercise_id)
       data = {
         exercise_id: exercise_id,
         used_time: totalSeconds,
         adjusted_time: adjustedSeconds,
-        errors: err
+        errors: err,
+        csrf_token: csrf_token
       }
+      console.log(data)
       postRequest(data, "/new_result")      
   };
 }
