@@ -1,0 +1,14 @@
+[MASTER]
+ignore=app.py
+
+[TYPECHECK]
+ignored-classes=scoped_session
+
+[FORMAT]
+max-line-length=120
+
+[MESSAGES CONTROL]
+disable=bare-except, multiple-imports
+
+[DESIGN]
+max-returns=8

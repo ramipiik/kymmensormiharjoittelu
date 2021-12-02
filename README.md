@@ -14,12 +14,12 @@ Sovelluksen avulla voit harjoitella kymmensormijärjestelmän käyttöä. Voit m
 * Ylläpitäjä voi poistaa harjoituksia ja tasoja
 * Ylläpitäjä näkee kaikkien käyttäjien tilastot
 
-## Status välipalautus 2
+## Status välipalautus 3
 * Sovellusta voi testata luomalla käyttäjätunnuksen osoitteessa: https://type10trainer.herokuapp.com/
-* Perustoiminnallisuus on koodausmielessä kasassa. Eli kaikki alkuperäisen vaatimusmäärittelyn vaatimukset toteutuvat.
-* Enää puuttuu itse sisältö eli mielekkäät harjoitukset. :)
+* kaikki alkuperäisen vaatimusmäärittelyn vaatimukset toteutuvat.
 * Admin-toiminnallisuuksia voi testata tunnuksella username: admin, password: admin.
-* Kysymys: Omaan toteutukseeni jäi lopulta vain ao. kolme tietokantataulua (ks. [schema.sql](https://github.com/ramipiik/kymmensormiharjoittelu/blob/main/src/schema.sql)).  
-  1. Onko tämä ok näin?
-  1. Vai yritänkö laajentaa sisältöä siten että tauluja tulee lisää (esim. mahdollisuus lisätä omia muistiinpanoja tms)?  
-  1. Vai pilkonko olemassa olemat taulut pienemmiksi?
+* Isoimmat päivitykset edellisen välipalauksen jälkeen:  
+  * Lisätty kommentointitoiminnallisuus (front-back-database)
+  * Käyttäjän antamien syötteiden validointi
+  * CSRF-haavoittuvuuden korjaus
+  * Sisällön eli harjoitusten luominen
