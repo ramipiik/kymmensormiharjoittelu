@@ -6,17 +6,20 @@ import users
 MAX_ERROR_RATE = 0.05
 MIN_TYPING_RATE = 120  # letters per minute.
 
+def get_text_length(exercise_id):
+    """Return lenght of the exercise text"""
+    sql = "SELECT text_to_write FROM exercises WHERE id=:exercise_id"
+    text_length = len(
+        db.session.execute(sql, {"exercise_id": exercise_id}).fetchone()[0]
+    )
+    return text_length
 
 def add_result(exercise_id, used_time, adjusted_time, errors):
     """Method for storing new result to the database"""
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "SELECT text_to_write FROM exercises WHERE id=:exercise_id"
-    text_length = len(
-        db.session.execute(sql, {"exercise_id": exercise_id}).fetchone()[0]
-    )
-
+    text_length=get_text_length(exercise_id)
     typing_speed = text_length * 60 / used_time
     error_rate = errors / text_length
     approved = False
@@ -144,16 +147,9 @@ def is_approved(exercise):
     data = result.fetchone()
     if data is None:
         return False
-    new_data = {}
-    new_data["adjusted_time"] = data["adjusted_time"]
-    new_data["used_time"] = data["used_time"]
-    new_data["sent_at"] = data["sent_at"]
-    new_data["errors"] = data["errors"]
-    new_data["text_to_write"] = data["text_to_write"]
-    text_length = len(new_data["text_to_write"])
-    time = int(new_data["used_time"])
-    errors = int(new_data["errors"])
-
+    text_length = len(data["text_to_write"])
+    time = int(data["used_time"])
+    errors = int(data["errors"])
     typing_rate = text_length * 60 / time
     error_rate = errors / text_length
     if typing_rate > MIN_TYPING_RATE and error_rate < MAX_ERROR_RATE:

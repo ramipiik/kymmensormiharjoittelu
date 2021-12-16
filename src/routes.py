@@ -15,7 +15,6 @@ def index():
     total = len(exercises_list)
     levels = exercises.get_levels()
     comment_count = comments.get_count()
-    print(comment_count)
     tried = exercises.get_tried_by_user()
     passed = exercises.get_passed_by_user()
     total_passed = len(passed)
@@ -108,14 +107,15 @@ def create_exercise():
         return render_template(
             "error.html", message="Exercise name must be 1-40 characters long"
         )
-
     description = request.form["description"]
+    level = request.form["level"]
+    text_to_write = request.form["text_to_write"]
+    csrf_received = request.form["csrf_token"]
+
     if len(description) < 1 or len(description) > 100:
         return render_template(
             "error.html", message="Description must be 1-100 characters long"
         )
-
-    level = request.form["level"]
     try:
         level = int(level)
     except:
@@ -126,8 +126,6 @@ def create_exercise():
         return render_template(
             "error.html", message="Level must be a number between 0 and 10"
         )
-
-    text_to_write = request.form["text_to_write"]
     if len(text_to_write) < 3 or len(text_to_write) > 1000:
         return render_template(
             "error.html", message="Text to write must be 3-1000 characters long"
@@ -138,8 +136,6 @@ def create_exercise():
             message="Sorry, line breaks are not allowed in the exercise text. \
             That's because the algorithm for checking typos cannot handle them properly. :|",
         )
-
-    csrf_received = request.form["csrf_token"]
     if csrf_received != session["csrf_token"]:
         print("csrf_tokens don't match")
         abort(403)
@@ -157,13 +153,11 @@ def edit_exercise():
         return render_template(
             "error.html", message="Exercise name must be 1-40 characters long"
         )
-
     description = request.form["description"]
     if len(description) < 1 or len(description) > 100:
         return render_template(
             "error.html", message="Description must be 1-100 characters long"
         )
-
     level = request.form["level"]
     try:
         level = int(level)
@@ -175,7 +169,6 @@ def edit_exercise():
         return render_template(
             "error.html", message="Level must be a number between 0 and 10"
         )
-
     text_to_write = request.form["text_to_write"]
     if len(text_to_write) < 3 or len(text_to_write) > 1000:
         return render_template(
@@ -187,7 +180,6 @@ def edit_exercise():
             message="Sorry, line breaks are not allowed in the exercise text. \
             That's because the algorithm for checking typos cannot handle them properly. :|",
         )
-
     csrf_received = request.form["csrf_token"]
     if csrf_received != session["csrf_token"]:
         print("csrf_tokens don't match")
@@ -212,7 +204,6 @@ def add_result():
     used_time = data["used_time"]
     adjusted_time = data["adjusted_time"]
     errors = data["errors"]
-
     try:
         exercise_id = int(exercise_id)
         used_time = int(used_time)
@@ -220,7 +211,6 @@ def add_result():
         errors = int(errors)
     except:
         return render_template("error.html", message="Hmm. Something went wrong. :|")
-
     if results.add_result(exercise_id, used_time, adjusted_time, errors):
         return redirect("/")
     return render_template("error.html", message="Could not store the result")

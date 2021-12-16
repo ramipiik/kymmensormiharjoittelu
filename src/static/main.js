@@ -13,8 +13,6 @@ const scoreBoard=document.getElementById('scoreBoard')
 const history=document.getElementById('history')
 const csrf_token=document.getElementById('csrf_token').innerHTML
 const usernameHelpBlock=document.getElementById("usernameHelpBlock")
-// const username=document.getElementById("username")
-// const password=document.getElementById("password")
 var test = document.getElementById('test')
 var resultBox=document.getElementById('resultBox')
 var date = document.getElementById('date')
@@ -25,11 +23,6 @@ var min = 0;
 var sec = 0;
 var stoptime = true;
 
-// function validate_login() {
-//   console.log(username)
-//   console.log(password)
-//   alert("pause")
-// }
 
 function filter(level, tried, passed) {
   // Loop through all list items, and hide those who don't match the search query
@@ -46,9 +39,13 @@ function filter(level, tried, passed) {
     }
     else {
         elements[i].style.display = "none";
-    } 
+    }
   }
+  set_values(count, tried, passed) 
+}
   
+   
+function set_values(count,tried, passed) {
   document.getElementById("totalExercises").innerHTML=count
   tried_on_this_level=document.getElementById("total_tried_helper").innerHTML
   passed_on_this_level=document.getElementById("total_passed_helper").innerHTML
@@ -69,6 +66,7 @@ function filter(level, tried, passed) {
   document.getElementById("passed").innerHTML=passed_on_this_level
 }
 
+
 function startTimer() {
   console.log("start timer")
   if (stoptime == true) {
@@ -77,13 +75,16 @@ function startTimer() {
     }
 }
 
+
 function goBack() {
   window.history.back();
 }
 
+
 function refreshPage() {
   window.reload();
 }
+
 
 function delete_exercise(id) {
   confirm("Are you sure that you want to delete exercise "+id+"?");
@@ -95,6 +96,7 @@ function delete_exercise(id) {
   postRequest(data, URL)
 }
 
+
 function toggleHistory() {
   if (history.style.display == 'none') {
     history.style.display = 'block'
@@ -104,6 +106,7 @@ function toggleHistory() {
     document.getElementById('toggleHistoryButton').innerHTML='Show'
   }
 }
+
 
 function toggleSignup() {
   signup=document.getElementById("signup")
@@ -115,6 +118,7 @@ function toggleSignup() {
     document.getElementById('toggleSignupButton').innerHTML='Show'
   }
 }
+
 
 function toggleInstructions() {
   if (instructions.style.display == 'none') {
@@ -129,6 +133,7 @@ function toggleInstructions() {
   input.focus();
 }
 
+
 function toggleComments() {
   if (comments.style.display == 'none') {
     comments.style.display = 'block'
@@ -141,6 +146,7 @@ function toggleComments() {
   input.style.backgroundColor = "white";
   input.focus();
 }
+
 
 function toggleScoreBoard() {
   if (scoreBoard.style.display == 'none') {
@@ -155,6 +161,7 @@ function toggleScoreBoard() {
   input.focus();
 }
 
+
 function secondsToTime(seconds) {
   seconds=parseInt(seconds)
   minutes=0
@@ -167,7 +174,6 @@ function secondsToTime(seconds) {
       minutes-=hours*60
     }
   } 
-
   if (seconds < 10 || seconds == 0) {
     seconds = '0' + seconds;
   }
@@ -177,7 +183,6 @@ function secondsToTime(seconds) {
   if (hours < 10 || hours == 0) {
     hours = '0' + hours;
   }
-
   var result = hours + ':' + minutes + ':' + seconds;
   return result
 
@@ -217,6 +222,7 @@ function timerCycle() {
   }
 }
 
+
 function resetTimer() {
     timer.innerHTML = '00:00:00';
     input.value = ''
@@ -231,6 +237,7 @@ function resetTimer() {
     if (resultBox.style.display != "none") resultBox.style.display="none"
     input.focus();
 }
+
 
 function similarity(s1, s2) {
   var longer = s1;
@@ -250,6 +257,7 @@ function similarity(s1, s2) {
   multiplier=sim*sim*sim
   return [nr_errors, multiplier];
 }
+
 
 // Code adapted from https://stackoverflow.com/questions/10473745/compare-strings-javascript-return-of-likely
 function editDistance(s1, s2) {
@@ -317,7 +325,6 @@ function submit(){
   }
   ErrorAdjustedTime.innerHTML=secondsToTime(adjustedSeconds);
   errors.innerHTML=err;
-
   a=Math.round(text_to_write.length/totalSeconds*60,0)
   b=err/text_to_write.length*100
   b=b.toFixed(1)

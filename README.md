@@ -12,13 +12,3 @@ Sovelluksen avulla voit harjoitella kymmensormijärjestelmän käyttöä. Voit m
 * Ylläpitäjä voi luoda uusia harjoituksia ja tasoja
 * Ylläpitäjä voi poistaa harjoituksia ja tasoja
 * Ylläpitäjä näkee kaikkien käyttäjien tilastot
-
-## Status välipalautus 3
-* Sovellusta voi testata luomalla käyttäjätunnuksen osoitteessa: https://type10trainer.herokuapp.com/
-* kaikki alkuperäisen vaatimusmäärittelyn vaatimukset toteutuvat.
-* Admin-toiminnallisuuksia voi testata tunnuksella username: admin, password: admin.
-* Isoimmat päivitykset edellisen välipalauksen jälkeen:  
-  * Lisätty kommentointitoiminnallisuus (front-back-database)
-  * Käyttäjän antamien syötteiden validointi
-  * CSRF-haavoittuvuuden korjaus
-  * Sisällön eli harjoitusten luominen
