@@ -66,8 +66,7 @@ def get_personal_top10(exercise, text_length):
     sql = "SELECT users.username, results.adjusted_time, results.used_time, results.sent_at, results.errors \
         FROM results LEFT JOIN users ON users.id=results.user_id \
         WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 5"
-    result = db.session.execute(
-        sql, {"user_id": user, "exercise_id": exercise})
+    result = db.session.execute(sql, {"user_id": user, "exercise_id": exercise})
     data = result.fetchall()
     new_data = []
     for i, item in enumerate(data):
@@ -116,8 +115,7 @@ def get_latest_results_by_exercise(exercise, text_length):
     sql = "SELECT users.username, results.adjusted_time, results.sent_at, results.errors, results.used_time \
         FROM results LEFT JOIN users ON users.id=results.user_id \
         WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY sent_at DESC LIMIT 100"
-    result = db.session.execute(
-        sql, {"user_id": user, "exercise_id": exercise})
+    result = db.session.execute(sql, {"user_id": user, "exercise_id": exercise})
     data = result.fetchall()
     new_data = []
     for i, item in enumerate(data):
@@ -142,8 +140,7 @@ def is_approved(exercise):
     sql = "SELECT results.adjusted_time, results.used_time, results.sent_at, results.errors, exercises.text_to_write \
         FROM results LEFT JOIN exercises ON exercises.id=results.exercise_id \
         WHERE user_id=:user_id AND exercise_id=:exercise_id ORDER BY adjusted_time LIMIT 1"
-    result = db.session.execute(
-        sql, {"user_id": user, "exercise_id": exercise})
+    result = db.session.execute(sql, {"user_id": user, "exercise_id": exercise})
     data = result.fetchone()
     if data is None:
         return False
