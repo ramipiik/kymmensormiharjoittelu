@@ -1,5 +1,6 @@
 # Kymmensormiharjoittelu
-Sovellus löytyy osoitteesta: https://type10trainer.herokuapp.com/
+Sovellus löytyy osoitteesta: https://type10trainer.herokuapp.com/  
+  
 Sovelluksen avulla voit harjoitella kymmensormijärjestelmän käyttöä. Voit myös mitata edistymistäsi ja kisata muita käyttäjiä vastaan nopeustesteillä. 
 
 ## Sovelluksen ominaisuuksia
